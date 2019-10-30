@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="train_minist.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="load_mnist.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

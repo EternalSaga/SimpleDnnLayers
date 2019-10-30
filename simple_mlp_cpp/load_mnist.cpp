@@ -49,10 +49,10 @@ RLDNN::loadMnist(fs::path mnistPath, bool normalize, bool flatten) {
     std::vector<std::pair<Eigen::Matrix<float, 28, 28, Eigen::RowMajor>,
                           Eigen::RowVectorXf>>
         returnVector;
-    Matrix<char, 28, 28, RowMajor> rowMajorNumBuffer;
+    Matrix<unsigned char, 28, 28, RowMajor> rowMajorNumBuffer;
     char labelTmp;
     for (size_t i = 0; i < numItems; i++) {
-      imageFile.read(rowMajorNumBuffer.data(),
+      imageFile.read(reinterpret_cast<char*> (rowMajorNumBuffer.data()),
                      static_cast<uint64_t>(rows) * cols);
       labelFile.read(&labelTmp, sizeof(labelTmp));
       VectorXf vLavel(10);
