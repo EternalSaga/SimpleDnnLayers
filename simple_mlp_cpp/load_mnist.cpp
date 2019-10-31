@@ -11,7 +11,7 @@ RLDNN::loadMnist(fs::path mnistPath, bool normalize, bool flatten) {
   const fs::path trainLabelsPath{"train-labels-idx1-ubyte"};
   const fs::path testImagesPath{"t10k-images-idx3-ubyte"};
   const fs::path testLabelsPath{"t10k-labels-idx1-ubyte"};
-  auto readImgAndLabel = [mnistPath](const fs::path& trainPath,
+  auto readImgAndLabel = [mnistPath,normalize](const fs::path& trainPath,
                                      const fs::path& labelPath) {
     auto absTrainPath = mnistPath / trainPath;
     auto absLabelPath = mnistPath / labelPath;
@@ -52,13 +52,20 @@ RLDNN::loadMnist(fs::path mnistPath, bool normalize, bool flatten) {
     Matrix<unsigned char, 28, 28, RowMajor> rowMajorNumBuffer;
     char labelTmp;
     for (size_t i = 0; i < numItems; i++) {
-      imageFile.read(reinterpret_cast<char*> (rowMajorNumBuffer.data()),
+      imageFile.read(reinterpret_cast<char*>(rowMajorNumBuffer.data()),
                      static_cast<uint64_t>(rows) * cols);
       labelFile.read(&labelTmp, sizeof(labelTmp));
       VectorXf vLavel(10);
       vLavel[labelTmp] = 1.f;
-      auto key = rowMajorNumBuffer.cast<float>();
-      returnVector.push_back(std::make_pair(key, vLavel));
+      auto imgOfHandWriteNum = rowMajorNumBuffer.cast<float>();
+
+      if (normalize) {
+        returnVector.push_back(
+            std::make_pair(imgOfHandWriteNum / 255.f, vLavel));
+      } else {
+        returnVector.push_back(std::make_pair(imgOfHandWriteNum, vLavel));
+      }
+      
     }
     return returnVector;
   };

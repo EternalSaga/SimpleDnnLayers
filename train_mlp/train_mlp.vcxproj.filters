@@ -15,19 +15,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="load_mnist.cpp">
+    <ClCompile Include="train.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MlpNet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="load_mnist.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MlpNet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

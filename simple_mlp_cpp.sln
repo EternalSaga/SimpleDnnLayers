@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simple_mlp_cpp", "simple_ml
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest", "UnitTest\UnitTest.vcxproj", "{65F17DB5-B6E8-44F4-92B2-2DFF86FA648F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "train_mlp", "train_mlp\train_mlp.vcxproj", "{68A455DD-4A12-4616-AA07-6F248FB4B1DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{65F17DB5-B6E8-44F4-92B2-2DFF86FA648F}.Release|x64.Build.0 = Release|x64
 		{65F17DB5-B6E8-44F4-92B2-2DFF86FA648F}.Release|x86.ActiveCfg = Release|Win32
 		{65F17DB5-B6E8-44F4-92B2-2DFF86FA648F}.Release|x86.Build.0 = Release|Win32
+		{68A455DD-4A12-4616-AA07-6F248FB4B1DA}.Debug|x64.ActiveCfg = Debug|x64
+		{68A455DD-4A12-4616-AA07-6F248FB4B1DA}.Debug|x64.Build.0 = Debug|x64
+		{68A455DD-4A12-4616-AA07-6F248FB4B1DA}.Debug|x86.ActiveCfg = Debug|Win32
+		{68A455DD-4A12-4616-AA07-6F248FB4B1DA}.Debug|x86.Build.0 = Debug|Win32
+		{68A455DD-4A12-4616-AA07-6F248FB4B1DA}.Release|x64.ActiveCfg = Release|x64
+		{68A455DD-4A12-4616-AA07-6F248FB4B1DA}.Release|x64.Build.0 = Release|x64
+		{68A455DD-4A12-4616-AA07-6F248FB4B1DA}.Release|x86.ActiveCfg = Release|Win32
+		{68A455DD-4A12-4616-AA07-6F248FB4B1DA}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
