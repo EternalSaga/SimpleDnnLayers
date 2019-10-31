@@ -4,9 +4,9 @@
 #include <string>
 #include <Eigen/Core>
 #include <map>
+#include "SupportFunctions.h"
 namespace RLDNN {
-	using namespace Eigen;
-	using MatrixXfRow = Matrix<float, Dynamic, Dynamic, RowMajor>;
+	
 class MlpNet {
           std::map<std::string, MatrixXfRow>
               params;

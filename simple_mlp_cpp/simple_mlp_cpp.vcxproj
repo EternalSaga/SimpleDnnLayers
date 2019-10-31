@@ -129,10 +129,12 @@
   <ItemGroup>
     <ClCompile Include="load_mnist.cpp" />
     <ClCompile Include="MlpNet.cpp" />
+    <ClCompile Include="SupportFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="load_mnist.h" />
     <ClInclude Include="MlpNet.h" />
+    <ClInclude Include="SupportFunctions.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
