@@ -11,8 +11,9 @@
 #include <string>
 #include <tuple>
 #include <vector>
-namespace RLDNN {
 namespace fs = std::filesystem;
+namespace RLDNN {
+
 std::tuple<std::vector<std::pair<Eigen::Matrix<float, 28, 28, Eigen::RowMajor>,
                                  Eigen::RowVectorXf>>,
            std::vector<std::pair<Eigen::Matrix<float, 28, 28, Eigen::RowMajor>,

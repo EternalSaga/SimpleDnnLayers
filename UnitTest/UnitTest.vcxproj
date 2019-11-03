@@ -131,7 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\simple_mlp_cpp\train_minist.cpp" />
+    <ClCompile Include="..\simple_mlp_cpp\testRLDNN.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\simple_mlp_cpp\simple_mlp_cpp.vcxproj">

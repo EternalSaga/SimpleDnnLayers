@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\simple_mlp_cpp\train_minist.cpp">
+    <ClCompile Include="..\simple_mlp_cpp\testRLDNN.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
