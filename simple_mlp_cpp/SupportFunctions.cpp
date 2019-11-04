@@ -9,7 +9,7 @@ MatrixXfRow softmax(const MatrixXfRow& x) {
   if (x.rows() > 1) {
     MatrixXfRow y = x.colwise() - x.rowwise().maxCoeff();
 
-    return y.array().exp().colwise() / y.array().exp().rowwise().sum().array() ;
+    return y.array().exp().colwise() / y.array().exp().rowwise().sum().array();
   } else {
     // for a single result
     auto y(x.array() - x.maxCoeff());
@@ -22,9 +22,9 @@ MatrixXfRow sigmoidGrad(const MatrixXfRow& x) {
 }
 
 float crossEntropyError(const MatrixXfRow& y, const MatrixXfRow& truth) {
-  auto batchSize{y.cols()};
+  auto batchSize{y.rows()};
   assert(y.cols() == truth.cols() && y.rows() == truth.rows());
-  return (0 - (truth.array() * ((y.array() + 1e-7).log())).sum());
+  return (0 - (truth.array() * ((y.array() + 1e-7).log())).sum()) / batchSize;
 }
 
 }  // namespace RLDNN

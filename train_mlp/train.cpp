@@ -1,7 +1,6 @@
-#include <load_mnist.h>
-#include <MlpNet.h>
+#include "TrainMlp.h"
 
 int main() {
-  RLDNN::MlpNet mlpNet(100, 50, 10);
+  RLDNN::TrainMlp mlp("D:/ProgramAndStudy/cpp_projects/simple_mlp_cpp/simple_mlp_cpp/mlpConfig.json");
   return 0;
 }

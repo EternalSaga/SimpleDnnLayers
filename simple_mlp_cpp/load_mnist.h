@@ -6,17 +6,17 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
-#include <utility>
 #include <memory>
 #include <string>
 #include <tuple>
+#include <utility>
 #include <vector>
 namespace fs = std::filesystem;
 namespace RLDNN {
-
-std::tuple<std::vector<std::pair<Eigen::Matrix<float, 28, 28, Eigen::RowMajor>,
-                                 Eigen::RowVectorXf>>,
-           std::vector<std::pair<Eigen::Matrix<float, 28, 28, Eigen::RowMajor>,
-                                 Eigen::RowVectorXf>>>
-loadMnist(fs::path mnistPath, bool normalize = true, bool flatten = true);
+using MNistData =
+    std::vector<std::pair<Eigen::Matrix<float, 28, 28, Eigen::RowMajor>,
+                          Eigen::RowVectorXf>>;
+std::tuple<MNistData, MNistData> loadMnist(fs::path mnistPath,
+                                           bool normalize = true,
+                                           bool flatten = true);
 }  // namespace RLDNN

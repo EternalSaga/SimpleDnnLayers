@@ -40,6 +40,16 @@ void testSupportFunctions() {
   auto sigmoidOut(sigmoid(testData));
   std::cout << sigmoidOut << std::endl;
   assert(sigmoidExpected.isApprox(sigmoidOut));
+
+  MatrixXfRow testTruth(2, 4);
+  MatrixXfRow testPredict(2, 4);
+  testTruth << 0,0,0,1,
+        0,1,0,0;
+  testPredict << 0.1,0.3,0.4,0.2,
+            0.7,0.1,0.1,0.1;
+  float expectedLoss{1.9560108184814453f};
+  auto loss = crossEntropyError(testPredict, testTruth);
+  assert(expectedLoss == loss);
 }
 
 }  // namespace TEST

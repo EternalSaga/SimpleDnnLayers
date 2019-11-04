@@ -5,6 +5,7 @@
 #include <string>
 #include <utility>
 #include <tuple>
+#include "load_mnist.h"
 #include "SupportFunctions.h"
 namespace RLDNN {
 
@@ -14,11 +15,15 @@ class MlpNet {
                                               RowVectorXf& trueth);
   std::tuple<RowVectorXf, RowVectorXf, RowVectorXf, RowVectorXf> predict(
       const MatrixXfRow& x);
+
+  float loss(const MatrixXfRow& x, const MatrixXfRow& truth);
  public:
-  MlpNet(int32_t inputSize,
+  MlpNet(std::string mnistRootPath,
+	  int32_t inputSize,
          int32_t hiddenSize,
          int32_t outputSize,
          float weightInitStd = 0.01);
+  
   
 };
 }  // namespace RLDNN

@@ -24,6 +24,9 @@
     <ClCompile Include="SupportFunctions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TrainMlp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="load_mnist.h">
@@ -35,5 +38,13 @@
     <ClInclude Include="SupportFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TrainMlp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="mlpConfig.json">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

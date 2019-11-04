@@ -28,9 +28,11 @@ std::tuple<RowVectorXf, RowVectorXf, RowVectorXf, RowVectorXf> MlpNet::predict(
   auto z1(sigmoid(a1));
   auto a2(z1 * W2 + b2);
   auto y(softmax(a2));
+
   return std::make_tuple(a1, z1, a2, y);
 }
-MlpNet::MlpNet(int32_t inputSize,
+MlpNet::MlpNet(std::string mnistRootPath,
+               int32_t inputSize,
                int32_t hiddenSize,
                int32_t outputSize,
                float weightInitStd) {
@@ -39,5 +41,10 @@ MlpNet::MlpNet(int32_t inputSize,
   params["W2"] =
       weightInitStd * MatrixXfRow(hiddenSize, outputSize).setRandom();
   params["b2"] = MatrixXfRow(outputSize, 1).setZero();
+  
+}
+float MlpNet::loss(const MatrixXfRow& x, const MatrixXfRow& truth) {
+  auto [_1, _2, _3, y]{predict(x)};
+  return crossEntropyError(y, truth);
 }
 }  // namespace RLDNN
