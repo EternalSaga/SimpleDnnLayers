@@ -129,12 +129,14 @@
   <ItemGroup>
     <ClCompile Include="load_mnist.cpp" />
     <ClCompile Include="MlpNet.cpp" />
+    <ClCompile Include="RLEigenUtils.cpp" />
     <ClCompile Include="SupportFunctions.cpp" />
     <ClCompile Include="TrainMlp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="load_mnist.h" />
     <ClInclude Include="MlpNet.h" />
+    <ClInclude Include="RLEigenUtils.h" />
     <ClInclude Include="SupportFunctions.h" />
     <ClInclude Include="TrainMlp.h" />
   </ItemGroup>

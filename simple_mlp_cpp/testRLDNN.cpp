@@ -7,14 +7,27 @@
 #include "load_mnist.h"
 namespace RLDNN {
 namespace TEST {
+
+void testRandomChoice() {
+  RandomChoice randomChoice{};
+  RLMask mask{randomChoice(200,30)};
+  std::cout << mask << std::endl;
+  assert((mask.array() > 0).count() == 30);
+}
+
 void testLoadMnist() {
   auto [trainSet, testSet] =
       RLDNN::loadMnist("D:\\ProgramAndStudy\\cpp_projects\\mnist-master");
-  for (size_t i = 0; i < trainSet.size(); i++) {
-    std::cout << trainSet[i].second << std::endl;
+  for (size_t i = 0; i < trainSet.first.rows(); i++) {
+    float label{0};
+    trainSet.second.row(i).maxCoeff(&label);
+    std::cout << label << std::endl;
     cv::Mat numImg;
-    cv::eigen2cv(trainSet[i].first, numImg);
-    std::cout << trainSet[i].first << std::endl;
+
+    Eigen::Matrix<float, -1, -1, Eigen::RowMajor> xx(trainSet.first.row(i));
+
+	xx.resize(28, 28);
+    cv::eigen2cv(xx, numImg);
     cv::imshow("mnist", numImg);
     cv::waitKey(0);
     cv::destroyAllWindows();
@@ -57,6 +70,8 @@ void testSupportFunctions() {
 
 int main() {
   using namespace RLDNN::TEST;
+  testRandomChoice();
   testSupportFunctions();
+  //testLoadMnist();
   return 0;
 }

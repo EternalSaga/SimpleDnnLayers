@@ -1,9 +1,9 @@
 #pragma once
 #include <Eigen/Core>
 #include <unsupported/Eigen/MatrixFunctions>
+#include "RLEigenUtils.h"
 namespace RLDNN {
-using namespace Eigen;
-using MatrixXfRow = Matrix<float, Dynamic, Dynamic, RowMajor>;
+
 MatrixXfRow sigmoid(const MatrixXfRow& x);
 //x is in mini-batch(it has multiple rows, each row for one result)
 MatrixXfRow softmax(const MatrixXfRow& x);

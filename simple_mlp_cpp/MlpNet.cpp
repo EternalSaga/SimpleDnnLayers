@@ -2,7 +2,7 @@
 #include "MlpNet.h"
 namespace RLDNN {
 std::map<std::string, MatrixXfRow> MlpNet::gradient(const MatrixXfRow& x,
-                                                    RowVectorXf& trueth) {
+                                                    const MatrixXfRow& trueth) {
   auto batchNum(x.rows());
   // forward
   auto [a1, z1, a2, y](predict(x));
@@ -17,29 +17,31 @@ std::map<std::string, MatrixXfRow> MlpNet::gradient(const MatrixXfRow& x,
   grads["b1"] = dz1.colwise().sum();
   return grads;
 }
-std::tuple<RowVectorXf, RowVectorXf, RowVectorXf, RowVectorXf> MlpNet::predict(
+std::tuple<MatrixXfRow, MatrixXfRow, MatrixXfRow, MatrixXfRow> MlpNet::predict(
     const MatrixXfRow& x) {
   auto& W1(params["W1"]);
   auto& W2(params["W2"]);
   auto& b1(params["b1"]);
   auto& b2(params["b2"]);
   // forward
-  auto a1(x * W1 + b1);
-  auto z1(sigmoid(a1));
-  auto a2(z1 * W2 + b2);
-  auto y(softmax(a2));
+  Map<RowVectorXf> b1v(b1.data(), b1.rows());
+  Map<RowVectorXf> b2v(b2.data(), b2.rows());
+  MatrixXfRow a1 = (x * W1).rowwise() + b1v;
+  MatrixXfRow z1 = sigmoid(a1);
+  MatrixXfRow a2 = (z1 * W2).rowwise() + b2v;
+  MatrixXfRow y = softmax(a2);
 
   return std::make_tuple(a1, z1, a2, y);
 }
-MlpNet::MlpNet(std::string mnistRootPath,
-               int32_t inputSize,
+MlpNet::MlpNet(int32_t inputSize,
                int32_t hiddenSize,
                int32_t outputSize,
                float weightInitStd) {
-  params["W1"] = weightInitStd * MatrixXfRow(inputSize, hiddenSize).setRandom();
-  params["b1"] = MatrixXfRow(hiddenSize, 1).setZero();
-  params["W2"] =
-      weightInitStd * MatrixXfRow(hiddenSize, outputSize).setRandom();
+  params["W1"] =
+      weightInitStd * (MatrixXfRow(inputSize, hiddenSize).setRandom());
+  params["b1"] = MatrixXfRow( hiddenSize,1).setZero();
+  params["W2"] = weightInitStd *
+                 (MatrixXfRow(hiddenSize,outputSize).setRandom());
   params["b2"] = MatrixXfRow(outputSize, 1).setZero();
   
 }

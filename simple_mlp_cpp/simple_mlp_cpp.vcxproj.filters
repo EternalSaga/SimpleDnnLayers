@@ -27,6 +27,9 @@
     <ClCompile Include="TrainMlp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RLEigenUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="load_mnist.h">
@@ -39,6 +42,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TrainMlp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RLEigenUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

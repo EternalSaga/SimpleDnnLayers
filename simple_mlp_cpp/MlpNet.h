@@ -3,27 +3,26 @@
 #include <cstdint>
 #include <map>
 #include <string>
-#include <utility>
 #include <tuple>
-#include "load_mnist.h"
+#include <utility>
 #include "SupportFunctions.h"
+#include "load_mnist.h"
 namespace RLDNN {
-
+class TrainMlp;
 class MlpNet {
+  friend class TrainMlp;
   std::map<std::string, MatrixXfRow> params;
   std::map<std::string, MatrixXfRow> gradient(const MatrixXfRow& x,
-                                              RowVectorXf& trueth);
-  std::tuple<RowVectorXf, RowVectorXf, RowVectorXf, RowVectorXf> predict(
+                                              const MatrixXfRow& trueth);
+  std::tuple<MatrixXfRow, MatrixXfRow, MatrixXfRow, MatrixXfRow> predict(
       const MatrixXfRow& x);
 
   float loss(const MatrixXfRow& x, const MatrixXfRow& truth);
+
  public:
-  MlpNet(std::string mnistRootPath,
-	  int32_t inputSize,
+  MlpNet(int32_t inputSize,
          int32_t hiddenSize,
          int32_t outputSize,
          float weightInitStd = 0.01);
-  
-  
 };
 }  // namespace RLDNN

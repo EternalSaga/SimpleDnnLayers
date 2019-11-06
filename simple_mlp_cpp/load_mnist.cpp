@@ -1,18 +1,16 @@
 #include "load_mnist.h"
-
-std::tuple<std::vector<std::pair<Eigen::Matrix<float, 28, 28, Eigen::RowMajor>,
-                                 Eigen::RowVectorXf>>,
-           std::vector<std::pair<Eigen::Matrix<float, 28, 28, Eigen::RowMajor>,
-                                 Eigen::RowVectorXf>>>
-RLDNN::loadMnist(fs::path mnistPath, bool normalize, bool flatten) {
+namespace RLDNN {
+std::tuple<MNistData, MNistData> loadMnist(fs::path mnistPath,
+                                           bool normalize,
+                                           bool flatten) {
   using namespace Eigen;
   using boost::endian::endian_reverse_inplace;
   const fs::path trainImagesPath{"train-images-idx3-ubyte"};
   const fs::path trainLabelsPath{"train-labels-idx1-ubyte"};
   const fs::path testImagesPath{"t10k-images-idx3-ubyte"};
   const fs::path testLabelsPath{"t10k-labels-idx1-ubyte"};
-  auto readImgAndLabel = [mnistPath,normalize](const fs::path& trainPath,
-                                     const fs::path& labelPath) {
+  auto readImgAndLabel = [mnistPath, normalize](const fs::path& trainPath,
+                                                const fs::path& labelPath) {
     auto absTrainPath = mnistPath / trainPath;
     auto absLabelPath = mnistPath / labelPath;
 
@@ -46,31 +44,29 @@ RLDNN::loadMnist(fs::path mnistPath, bool normalize, bool flatten) {
     std::cout << "Image and label num is: " << numItems << std::endl;
     std::cout << "Image rows: " << rows << ", cols: " << cols << std::endl;
 
-    std::vector<std::pair<Eigen::Matrix<float, 28, 28, Eigen::RowMajor>,
-                          Eigen::RowVectorXf>>
-        returnVector;
-    Matrix<unsigned char, 28, 28, RowMajor> rowMajorNumBuffer;
+    Eigen::Matrix<unsigned char, Eigen::Dynamic, MNIST_LENGTH, Eigen::RowMajor>
+        allMnistChar(numItems, MNIST_LENGTH);
+    allMnistChar.setZero();
+    LabelData allLabels(numItems, LABEL_LENGTH);
+    allLabels.setZero();
     char labelTmp;
-    for (size_t i = 0; i < numItems; i++) {
-      imageFile.read(reinterpret_cast<char*>(rowMajorNumBuffer.data()),
-                     static_cast<uint64_t>(rows) * cols);
-      labelFile.read(&labelTmp, sizeof(labelTmp));
-      VectorXf vLavel(10);
-      vLavel[labelTmp] = 1.f;
-      auto imgOfHandWriteNum = rowMajorNumBuffer.cast<float>();
 
-      if (normalize) {
-        returnVector.push_back(
-            std::make_pair(imgOfHandWriteNum / 255.f, vLavel));
-      } else {
-        returnVector.push_back(std::make_pair(imgOfHandWriteNum, vLavel));
-      }
-      
+    for (size_t i = 0; i < numItems; i++) {
+      imageFile.read(reinterpret_cast<char*>(allMnistChar.row(i).data()),
+                     static_cast<uint64_t>(MNIST_LENGTH));
+      labelFile.read(&labelTmp, sizeof(labelTmp));
+      allLabels.row(i)(labelTmp) = 1.f;
     }
-    return returnVector;
+    Eigen::Matrix<float, Eigen::Dynamic, MNIST_LENGTH, Eigen::RowMajor>
+        allMnist = allMnistChar.cast<float>();
+    if (normalize) {
+      allMnist /= 255.0f;
+    }
+    return std::make_pair(allMnist, allLabels);
   };
 
-  auto train = readImgAndLabel(trainImagesPath, trainLabelsPath);
-  auto test = readImgAndLabel(testImagesPath, testLabelsPath);
+  auto train{readImgAndLabel(trainImagesPath, trainLabelsPath)};
+  auto test{readImgAndLabel(testImagesPath, testLabelsPath)};
   return std::make_tuple(train, test);
 }
+}  // namespace RLDNN

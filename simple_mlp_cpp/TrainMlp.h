@@ -10,7 +10,7 @@ class TrainMlp {
  public:
   TrainMlp(std::string jsonConfigPath);
   ~TrainMlp();
-
+  void startTrain();
  private:
   MNistData trainSet;
   MNistData testSet;
@@ -19,5 +19,6 @@ class TrainMlp {
   size_t iterationTimes;
   size_t batchSize;
   float learningRate;
+  size_t trainSize;
 };
 }  // namespace RLDNN
