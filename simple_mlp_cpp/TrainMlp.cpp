@@ -37,7 +37,7 @@ void TrainMlp::startTrain() {
     }
     auto grad = network.gradient(xBatch, tBatch);
     for (auto val : network.params) {
-      network.params[val.first] -= this->learningRate * grad[val.first];
+      network.params[val.first].array() -= grad[val.first].array() * this->learningRate;
     }
     auto loss{network.loss(xBatch, tBatch)};
     trainLossList.push_back(loss);

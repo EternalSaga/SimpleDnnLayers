@@ -3,18 +3,22 @@
 namespace RLDNN {
 std::map<std::string, MatrixXfRow> MlpNet::gradient(const MatrixXfRow& x,
                                                     const MatrixXfRow& trueth) {
+  auto& W1 = this->params["W1"];
+  auto& W2 = this->params["W2"];
+  auto& b1 = this->params["b1"];
+  auto& b2 = this->params["b2"];
   auto batchNum(x.rows());
   // forward
   auto [a1, z1, a2, y](predict(x));
   // backward
   std::map<std::string, MatrixXfRow> grads;
-  auto dy((y - trueth) / batchNum);
+  MatrixXfRow dy((y - trueth) / batchNum);
   grads["W2"] = z1.transpose() * dy;
   grads["b2"] = dy.colwise().sum();
-  auto da1(z1.transpose() * dy);
-  auto dz1(sigmoidGrad(a1).array() * da1.array());
+  MatrixXfRow da1(dy * W2.transpose());
+  MatrixXfRow dz1(sigmoidGrad(a1).array() * da1.array());
   grads["W1"] = x.transpose() * dz1.matrix();
-  grads["b1"] = dz1.colwise().sum();
+  grads["b1"] = dz1.rowwise().sum();
   return grads;
 }
 std::tuple<MatrixXfRow, MatrixXfRow, MatrixXfRow, MatrixXfRow> MlpNet::predict(
@@ -39,11 +43,10 @@ MlpNet::MlpNet(int32_t inputSize,
                float weightInitStd) {
   params["W1"] =
       weightInitStd * (MatrixXfRow(inputSize, hiddenSize).setRandom());
-  params["b1"] = MatrixXfRow( hiddenSize,1).setZero();
-  params["W2"] = weightInitStd *
-                 (MatrixXfRow(hiddenSize,outputSize).setRandom());
+  params["b1"] = MatrixXfRow(hiddenSize, 1).setZero();
+  params["W2"] =
+      weightInitStd * (MatrixXfRow(hiddenSize, outputSize).setRandom());
   params["b2"] = MatrixXfRow(outputSize, 1).setZero();
-  
 }
 float MlpNet::loss(const MatrixXfRow& x, const MatrixXfRow& truth) {
   auto [_1, _2, _3, y]{predict(x)};
