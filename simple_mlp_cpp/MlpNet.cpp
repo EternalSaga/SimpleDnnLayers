@@ -15,10 +15,11 @@ std::map<std::string, MatrixXfRow> MlpNet::gradient(const MatrixXfRow& x,
   MatrixXfRow dy((y - trueth) / batchNum);
   grads["W2"] = z1.transpose() * dy;
   grads["b2"] = dy.colwise().sum();
+  grads["b2"].transposeInPlace();
   MatrixXfRow da1(dy * W2.transpose());
   MatrixXfRow dz1(sigmoidGrad(a1).array() * da1.array());
   grads["W1"] = x.transpose() * dz1.matrix();
-  grads["b1"] = dz1.rowwise().sum();
+  grads["b1"] = dz1.colwise().sum().transpose();
   return grads;
 }
 std::tuple<MatrixXfRow, MatrixXfRow, MatrixXfRow, MatrixXfRow> MlpNet::predict(
