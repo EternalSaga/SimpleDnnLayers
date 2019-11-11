@@ -5,9 +5,11 @@
 #include <opencv2/highgui.hpp>
 #include "SupportFunctions.h"
 #include "load_mnist.h"
+#include "RLEigenUtils.h"
 namespace RLDNN {
 namespace TEST {
-
+	using std::cout;
+	using std::endl;
 void testRandomChoice() {
   RandomChoice randomChoice{};
   RLMask mask{randomChoice(200,30)};
@@ -64,14 +66,25 @@ void testSupportFunctions() {
   auto loss = crossEntropyError(testPredict, testTruth);
   assert(expectedLoss == loss);
 }
+void testReduceByMask() {
+  RLMask mask(7, 1);
+  mask << 1, 0, 0, 0, 1, 1, 0;
+  auto toBeMask = MatrixXfRow(7, 3);
+  toBeMask << 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+      20, 21;
 
+  auto result = reduceByMask(toBeMask, mask);
+  auto expected = MatrixXfRow(3, 3);
+  expected << 1, 2, 3, 13, 14, 15, 16, 17, 18;
+  assert(expected.isApprox(result));
+}
 }  // namespace TEST
 }  // namespace RLDNN
 
+
 int main() {
   using namespace RLDNN::TEST;
-  testRandomChoice();
-  testSupportFunctions();
+  testReduceByMask();
   //testLoadMnist();
   return 0;
 }

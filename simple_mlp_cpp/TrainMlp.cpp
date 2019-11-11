@@ -25,16 +25,17 @@ void TrainMlp::startTrain() {
   auto network{MlpNet(MNIST_LENGTH, 50, LABEL_LENGTH)};
   for (size_t i = 0; i < iterationTimes; i++) {
     auto batchMask(randomChoice(trainSize, batchSize));
+
     MatrixXfRow xBatch;
     MatrixXfRow tBatch;
     try {
-
       xBatch = reduceByMask(trainSet.first, batchMask);
       tBatch = reduceByMask(trainSet.second, batchMask);
     } catch (const std::runtime_error& e) {
       std::cerr << e.what() << std::endl;
       std::abort();
     }
+
     auto grad = network.gradient(xBatch, tBatch);
     for (auto val : network.params) {
       network.params[val.first].array() -= grad[val.first].array() * this->learningRate;
