@@ -20,5 +20,6 @@ class TrainMlp {
   size_t batchSize;
   float learningRate;
   size_t trainSize;
+
 };
 }  // namespace RLDNN

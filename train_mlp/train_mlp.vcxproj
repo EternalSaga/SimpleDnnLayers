@@ -132,6 +132,8 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2019.5.281\windows\mkl\lib\intel64;C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2019.5.281\windows\tbb\lib\intel64\vc_mt;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mkl_intel_lp64.lib;mkl_tbb_thread.lib;mkl_core.lib;tbb.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

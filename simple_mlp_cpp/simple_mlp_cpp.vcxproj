@@ -89,6 +89,8 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\ProgramAndStudy\cpp_libs\eigen-eigen-323c052e1731;D:\ProgramAndStudy\cpp_libs\boost_1_71_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -117,14 +119,25 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\ProgramAndStudy\cpp_libs\eigen-eigen-323c052e1731;D:\ProgramAndStudy\cpp_libs\boost_1_71_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\ProgramAndStudy\cpp_libs\eigen-eigen-323c052e1731;D:\ProgramAndStudy\cpp_libs\boost_1_71_0;C:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <PreprocessorDefinitions>EIGEN_USE_MKL_ALL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
+      <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <AdditionalDependencies>mkl_intel_lp64.lib;mkl_tbb_thread.lib;mkl_core.lib;tbb.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2019.5.281\windows\mkl\lib\intel64;C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2019.5.281\windows\tbb\lib\intel64\vc_mt;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="load_mnist.cpp" />

@@ -53,4 +53,14 @@ float MlpNet::loss(const MatrixXfRow& x, const MatrixXfRow& truth) {
   auto [_1, _2, _3, y]{predict(x)};
   return crossEntropyError(y, truth);
 }
+float MlpNet::getAccuracy(const MatrixXfRow& x,
+                                 const MatrixXfRow& truth) {
+  auto [_1, _2, _3, y]{this->predict(x)};
+  auto [maxIndcesTruth, _x] = getMaxIndexesValuesAccordingToRows(truth);
+  auto [maxIndcesY, _xx] = getMaxIndexesValuesAccordingToRows(y);
+  float acc =
+      (maxIndcesTruth.array() == maxIndcesY.array()).cast<float>().sum() /
+      maxIndcesTruth.size();
+  return acc;
+}
 }  // namespace RLDNN

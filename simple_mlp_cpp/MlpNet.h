@@ -18,11 +18,16 @@ class MlpNet {
       const MatrixXfRow& x);
 
   float loss(const MatrixXfRow& x, const MatrixXfRow& truth);
+  
 
  public:
   MlpNet(int32_t inputSize,
          int32_t hiddenSize,
          int32_t outputSize,
          float weightInitStd = 0.01);
+  float getAccuracy(const MatrixXfRow& x, const MatrixXfRow& truth);
+#ifndef NDEBUG
+  MlpNet() = default;
+#endif  // !NDEBUG
 };
 }  // namespace RLDNN

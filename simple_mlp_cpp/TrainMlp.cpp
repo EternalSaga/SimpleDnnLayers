@@ -43,7 +43,14 @@ void TrainMlp::startTrain() {
     auto loss{network.loss(xBatch, tBatch)};
     trainLossList.push_back(loss);
     std::cout << loss << std::endl;
+    float trainAcc = network.getAccuracy(trainSet.first, trainSet.second);
+    trainAccList.push_back(trainAcc);
+    float testAcc = network.getAccuracy(testSet.first, testSet.second);
+    testAccList.push_back(testAcc);
+    std::cout << "Train Acc | " << trainAcc << ". Test Acc | " << testAcc
+              << std::endl;
   }
 }
+
 }  // namespace RLDNN
 

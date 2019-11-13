@@ -35,4 +35,14 @@ MatrixXfRow reduceByMask(const MatrixXfRow& original, const RLMask& mask) {
   }
   return returnV;
 }
+std::tuple < VectorXi,
+    VectorXi> getMaxIndexesValuesAccordingToRows(const MatrixXfRow& mat) {
+
+  VectorXi maxIndexes(mat.rows());
+  VectorXi maxValues(mat.rows());
+  for (size_t i = 0; i < static_cast<size_t>(mat.rows()); i++) {
+    maxValues(i) = mat.row(i).maxCoeff(&maxIndexes(i));
+  }
+  return std::make_tuple(maxIndexes, maxValues);
+}
 }  // namespace RLDNN

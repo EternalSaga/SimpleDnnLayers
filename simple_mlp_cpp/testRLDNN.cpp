@@ -5,6 +5,7 @@
 #include <opencv2/highgui.hpp>
 #include "SupportFunctions.h"
 #include "load_mnist.h"
+#include "MlpNet.h"
 #include "RLEigenUtils.h"
 namespace RLDNN {
 namespace TEST {
@@ -78,13 +79,15 @@ void testReduceByMask() {
   expected << 1, 2, 3, 13, 14, 15, 16, 17, 18;
   assert(expected.isApprox(result));
 }
+
+
+
 }  // namespace TEST
 }  // namespace RLDNN
 
 
 int main() {
   using namespace RLDNN::TEST;
-  testReduceByMask();
-  //testLoadMnist();
+
   return 0;
 }

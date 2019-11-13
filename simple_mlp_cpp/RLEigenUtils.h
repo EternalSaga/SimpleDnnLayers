@@ -60,4 +60,7 @@ void copySelfAlongSpecificAxis(MatrixXRow<T>& mat,
 // remove it)
 MatrixXfRow reduceByMask(const MatrixXfRow& original, const RLMask& mask);
 
+
+std::tuple<VectorXi, VectorXi> getMaxIndexesValuesAccordingToRows(
+    const MatrixXfRow& mat);
 }  // namespace RLDNN
