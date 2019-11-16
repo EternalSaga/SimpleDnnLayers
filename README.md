@@ -9,7 +9,8 @@ Visual Studio 2019 with C++17
 Boost 1.71.0: For Endian Library and Property Tree Library
 
 Eigen: For matrix manipulation
-Opencv: Optional, I only use it for some tests.
+
+OpenCV: Optional, I only use it for some tests.
 
 MKL: Optional, if you are not satisfied with the speed of Eigen, you can link it to Eigen.
 
