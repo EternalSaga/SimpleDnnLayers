@@ -1,7 +1,7 @@
 # simple-two-layers-mlp
 A simple two layers multiple layers perceptron based on pure C++.
 
-I coded it to prove C++ is also suitable for machine learning / deep learning.
+I coded it to prove that C++ is also suitable for machine learning / deep learning.
 
 # Environment
 Visual Studio 2019 with C++17
