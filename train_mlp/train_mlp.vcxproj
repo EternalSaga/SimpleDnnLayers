@@ -95,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\ProgramAndStudy\cpp_libs\eigen-eigen-323c052e1731;D:\ProgramAndStudy\cpp_libs\boost_1_71_0;$(SolutionDir)\simple_mlp_cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\ProgramAndStudy\cpp_libs\opencv\opencv\build\include;D:\ProgramAndStudy\cpp_libs\eigen-eigen-323c052e1731;D:\ProgramAndStudy\cpp_libs\boost_1_71_0;$(SolutionDir)\simple_mlp_cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -125,7 +125,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\ProgramAndStudy\cpp_libs\eigen-eigen-323c052e1731;D:\ProgramAndStudy\cpp_libs\boost_1_71_0;$(SolutionDir)\simple_mlp_cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\ProgramAndStudy\cpp_libs\opencv\opencv\build\include;D:\ProgramAndStudy\cpp_libs\eigen-eigen-323c052e1731;D:\ProgramAndStudy\cpp_libs\boost_1_71_0;$(SolutionDir)\simple_mlp_cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>

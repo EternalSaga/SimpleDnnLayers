@@ -87,7 +87,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\ProgramAndStudy\cpp_libs\eigen-eigen-323c052e1731;D:\ProgramAndStudy\cpp_libs\boost_1_71_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\ProgramAndStudy\cpp_libs\opencv\opencv\build\include;D:\ProgramAndStudy\cpp_libs\eigen-eigen-323c052e1731;D:\ProgramAndStudy\cpp_libs\boost_1_71_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -119,7 +119,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\ProgramAndStudy\cpp_libs\eigen-eigen-323c052e1731;D:\ProgramAndStudy\cpp_libs\boost_1_71_0;C:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\ProgramAndStudy\cpp_libs\opencv\opencv\build\include;D:\ProgramAndStudy\cpp_libs\eigen-eigen-323c052e1731;D:\ProgramAndStudy\cpp_libs\boost_1_71_0;C:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\mkl\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PreprocessorDefinitions>EIGEN_USE_MKL_ALL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>

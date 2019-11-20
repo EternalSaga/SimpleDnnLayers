@@ -7,10 +7,12 @@
 #include <utility>
 #include "SupportFunctions.h"
 #include "load_mnist.h"
+#include "testRLDNN.h"
 namespace RLDNN {
 class TrainMlp;
 class MlpNet {
-  friend class TrainMlp;
+  friend class TrainMlp; 
+  friend void TEST::testPredict();
   std::map<std::string, MatrixXfRow> params;
   std::map<std::string, MatrixXfRow> gradient(const MatrixXfRow& x,
                                               const MatrixXfRow& trueth);

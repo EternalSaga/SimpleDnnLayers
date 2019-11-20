@@ -140,6 +140,9 @@
       <Project>{76e76651-5249-40e2-815c-aba53c96beda}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\simple_mlp_cpp\testRLDNN.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

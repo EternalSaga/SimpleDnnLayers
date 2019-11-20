@@ -7,6 +7,7 @@
 #include "load_mnist.h"
 #include "MlpNet.h"
 #include "RLEigenUtils.h"
+#include "testRLDNN.h"
 namespace RLDNN {
 namespace TEST {
 	using std::cout;
@@ -82,12 +83,20 @@ void testReduceByMask() {
 
 
 
+void testPredict() {
+  MlpNet net(2, 2, 2);
+  MatrixXfRow testData(5, 2);
+  testData << 1, 2, 3, 4, 5, 6, 7, 8, 9, 0;
+  auto [a,b,c,y]=net.predict(testData);
+  cout << y << endl;
+}
+
 }  // namespace TEST
 }  // namespace RLDNN
 
 
 int main() {
   using namespace RLDNN::TEST;
-
+  testPredict();
   return 0;
 }
