@@ -17,7 +17,7 @@ class RandomChoice {
 
  public:
   RandomChoice();
-  RLMask operator()(size_t maxSize, size_t choiceNum);
+  std::set<size_t> operator()(size_t maxSize, size_t choiceNum);
 };
 
 enum Axis { COLUMN, ROW };
@@ -56,9 +56,8 @@ void copySelfAlongSpecificAxis(MatrixXRow<T>& mat,
   }
 }
 
-// Remove the rows according to mask vectors (if the index of vector is zero,
-// remove it)
-MatrixXfRow reduceByMask(const MatrixXfRow& original, const RLMask& mask);
+MatrixXfRow reduceByRandChoice(const MatrixXfRow& original,
+                         const std::set<size_t>& randSet);
 
 
 std::tuple<VectorXi, VectorXi> getMaxIndexesValuesAccordingToRows(

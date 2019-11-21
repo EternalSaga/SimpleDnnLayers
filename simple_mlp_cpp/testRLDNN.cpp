@@ -12,12 +12,7 @@ namespace RLDNN {
 namespace TEST {
 	using std::cout;
 	using std::endl;
-void testRandomChoice() {
-  RandomChoice randomChoice{};
-  RLMask mask{randomChoice(200,30)};
-  std::cout << mask << std::endl;
-  assert((mask.array() > 0).count() == 30);
-}
+
 
 void testLoadMnist() {
   auto [trainSet, testSet] =
@@ -69,14 +64,14 @@ void testSupportFunctions() {
   assert(expectedLoss == loss);
 }
 void testReduceByMask() {
-  RLMask mask(7, 1);
-  mask << 1, 0, 0, 0, 1, 1, 0;
+  std::set<size_t> mask{0,4,5};
+
   auto toBeMask = MatrixXfRow(7, 3);
   toBeMask << 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
       20, 21;
 
-  auto result = reduceByMask(toBeMask, mask);
-  auto expected = MatrixXfRow(3, 3);
+  MatrixXfRow result = reduceByRandChoice(toBeMask, mask);
+  MatrixXfRow expected = MatrixXfRow(3, 3);
   expected << 1, 2, 3, 13, 14, 15, 16, 17, 18;
   assert(expected.isApprox(result));
 }
@@ -91,12 +86,21 @@ void testPredict() {
   cout << y << endl;
 }
 
+void testSelect() {
+  MatrixXfRow origin(4, 4);
+  origin << 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16;
+  cout << "Origin" << endl << origin << endl;
+  std::vector<int> selected{1, 3};
+  MatrixXfRow sub = origin(selected, Eigen::all);
+  cout << "Sub" << endl << sub << endl;
+}
+
 }  // namespace TEST
 }  // namespace RLDNN
 
 
 int main() {
   using namespace RLDNN::TEST;
-  testPredict();
+  testSelect();
   return 0;
 }

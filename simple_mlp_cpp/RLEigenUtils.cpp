@@ -4,40 +4,25 @@
 namespace RLDNN {
 RandomChoice::RandomChoice() : rd(), randGen(rd()), idcesSet() {}
 
-RLMask RandomChoice::operator()(size_t maxSize, size_t choiceNum) {
+std::set<size_t> RandomChoice::operator()(size_t maxSize, size_t choiceNum) {
   std::uniform_int_distribution<> intDist(0, maxSize - 1);
   do {
     idcesSet.insert(intDist(randGen));
   } while (idcesSet.size() != choiceNum);
-  RLMask mask(maxSize, 1);
-  mask.setConstant(0);
-  for (size_t i : idcesSet) {
-    mask(i, 0) = 1;
-  }
+  auto randSet = idcesSet;
   this->idcesSet.clear();
-  return mask;
+  return randSet;
 }
-MatrixXfRow reduceByMask(const MatrixXfRow& original, const RLMask& mask) {
-  if (mask.cols() != 1) {
-    throw std::invalid_argument("mask ought to be a col vector!");
-  }
-  size_t reduceSize((mask.array() > 0).count());
-  MatrixXfRow returnV = MatrixXfRow::Zero(reduceSize, original.cols());
-  size_t j(0);
-  for (size_t i = 0; i < static_cast<size_t>(original.rows()); i++) {
-    if (mask(i) > 0) {
-      returnV.row(j) = original.row(i);
-      j++;
-    }
-  }
-  if (returnV.rows() != reduceSize) {
-    throw std::runtime_error("input matrix has zero cols");
-  }
+MatrixXfRow reduceByRandChoice(const MatrixXfRow& original,
+                               const std::set<size_t>& randSet) {
+  std::vector<int> indecs(randSet.begin(), randSet.end());
+
+ MatrixXfRow returnV = original(indecs, Eigen::all);
+
   return returnV;
 }
-std::tuple < VectorXi,
-    VectorXi> getMaxIndexesValuesAccordingToRows(const MatrixXfRow& mat) {
-
+std::tuple<VectorXi, VectorXi> getMaxIndexesValuesAccordingToRows(
+    const MatrixXfRow& mat) {
   VectorXi maxIndexes(mat.rows());
   VectorXi maxValues(mat.rows());
   for (size_t i = 0; i < static_cast<size_t>(mat.rows()); i++) {

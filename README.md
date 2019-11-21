@@ -8,7 +8,7 @@ Visual Studio 2019 with C++17
 # 3rd party library
 Boost 1.71.0: For Endian Library and Property Tree Library
 
-Eigen: For matrix manipulation
+Eigen: For matrix manipulation. I use the master branch at presnet. https://github.com/eigenteam/eigen-git-mirror
 
 OpenCV: Optional, I only use it for some tests.
 
@@ -16,3 +16,7 @@ MKL: Optional, if you are not satisfied with the speed of Eigen, you can link it
 
 # Next Plan
 CNN and CUDA support is on going.
+
+# Great improvments update
+I changed the eigen version to master branch.
+Due to some optimize method which I can't explain it, I gained the 100 times speed improvement.

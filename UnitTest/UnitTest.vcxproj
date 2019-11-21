@@ -76,7 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\ProgramAndStudy\cpp_libs\eigen-eigen-323c052e1731;D:\ProgramAndStudy\cpp_libs\boost_1_71_0;D:\ProgramAndStudy\cpp_libs\opencv\opencv\build\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\ProgramAndStudy\cpp_libs\eigen-git-mirror;D:\ProgramAndStudy\cpp_libs\boost_1_71_0;D:\ProgramAndStudy\cpp_libs\opencv\opencv\build\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
@@ -120,7 +120,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\ProgramAndStudy\cpp_libs\eigen-eigen-323c052e1731;D:\ProgramAndStudy\cpp_libs\boost_1_71_0;D:\ProgramAndStudy\cpp_libs\opencv\opencv\build\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\ProgramAndStudy\cpp_libs\eigen-git-mirror;D:\ProgramAndStudy\cpp_libs\boost_1_71_0;D:\ProgramAndStudy\cpp_libs\opencv\opencv\build\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>

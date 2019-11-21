@@ -1,5 +1,5 @@
 #include "TrainMlp.h"
-
+#include <algorithm>
 namespace RLDNN {
 TrainMlp::TrainMlp(std::string jsonConfigPath) {
   pt::ptree root;
@@ -21,34 +21,34 @@ void TrainMlp::startTrain() {
   std::vector<float> trainAccList{};
   std::vector<float> testAccList{};
   auto iterPerEpoch = std::max(static_cast<int>(trainSize / batchSize), 1);
+  //auto iterPerEpoch = 10;
   RandomChoice randomChoice;
   auto network{MlpNet(MNIST_LENGTH, 50, LABEL_LENGTH)};
-  for (size_t i = 0; i < iterationTimes; i++) {
-    auto batchMask(randomChoice(trainSize, batchSize));
 
-    MatrixXfRow xBatch;
-    MatrixXfRow tBatch;
-    try {
-      xBatch = reduceByMask(trainSet.first, batchMask);
-      tBatch = reduceByMask(trainSet.second, batchMask);
-    } catch (const std::runtime_error& e) {
-      std::cerr << e.what() << std::endl;
-      std::abort();
-    }
+  for (size_t i = 0; i < iterationTimes; i++) {
+    std::set<size_t> randSet(randomChoice(trainSize, batchSize));
+    std::vector<int> indecs(randSet.begin(), randSet.end());
+
+    MatrixXfRow xBatch = trainSet.first(indecs, Eigen::all);
+    MatrixXfRow tBatch = trainSet.second(indecs, Eigen::all);
 
     auto grad = network.gradient(xBatch, tBatch);
     for (auto val : network.params) {
       network.params[val.first].array() -= grad[val.first].array() * this->learningRate;
     }
     auto loss{network.loss(xBatch, tBatch)};
-    trainLossList.push_back(loss);
-    std::cout << loss << std::endl;
-    float trainAcc = network.getAccuracy(trainSet.first, trainSet.second);
-    trainAccList.push_back(trainAcc);
-    float testAcc = network.getAccuracy(testSet.first, testSet.second);
-    testAccList.push_back(testAcc);
-    std::cout << "Train Acc | " << trainAcc << ". Test Acc | " << testAcc
-              << std::endl;
+    
+    if (i % iterPerEpoch == 0) {
+      trainLossList.push_back(loss);
+      std::cout << loss << std::endl;
+      float trainAcc = network.getAccuracy(trainSet.first, trainSet.second);
+      trainAccList.push_back(trainAcc);
+      float testAcc = network.getAccuracy(testSet.first, testSet.second);
+      testAccList.push_back(testAcc);
+      std::cout << "Train Acc | " << trainAcc << ". Test Acc | " << testAcc
+                << std::endl;
+    }
+    
   }
 }
 
