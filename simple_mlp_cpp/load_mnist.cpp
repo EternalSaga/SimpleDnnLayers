@@ -5,10 +5,10 @@ std::tuple<MNistData, MNistData> loadMnist(fs::path mnistPath,
                                            bool flatten) {
   using namespace Eigen;
   using boost::endian::endian_reverse_inplace;
-  const fs::path trainImagesPath{"train-images-idx3-ubyte"};
-  const fs::path trainLabelsPath{"train-labels-idx1-ubyte"};
-  const fs::path testImagesPath{"t10k-images-idx3-ubyte"};
-  const fs::path testLabelsPath{"t10k-labels-idx1-ubyte"};
+  const fs::path trainImagesPath{"train-images.idx3-ubyte"};
+  const fs::path trainLabelsPath{"train-labels.idx1-ubyte"};
+  const fs::path testImagesPath{"t10k-images.idx3-ubyte"};
+  const fs::path testLabelsPath{"t10k-labels.idx1-ubyte"};
   auto readImgAndLabel = [mnistPath, normalize](const fs::path& trainPath,
                                                 const fs::path& labelPath) {
     auto absTrainPath = mnistPath / trainPath;
