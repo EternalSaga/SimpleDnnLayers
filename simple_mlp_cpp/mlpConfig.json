@@ -1,7 +1,7 @@
 {
   "mnist root path": "D:/ProgramAndStudy/C++_proj/simpleCppMlp/mnist_data",
   "train policy": {
-    "iteration times": 100000,
+    "iteration times": 10000,
     "batch size": 128,
     "learning rate": 0.1
   }

@@ -149,6 +149,7 @@
     <ClCompile Include="MlpNet.cpp" />
     <ClCompile Include="RLEigenUtils.cpp" />
     <ClCompile Include="SupportFunctions.cpp" />
+    <ClCompile Include="TimeStamp.cpp" />
     <ClCompile Include="TrainMlp.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +157,7 @@
     <ClInclude Include="MlpNet.h" />
     <ClInclude Include="RLEigenUtils.h" />
     <ClInclude Include="SupportFunctions.h" />
+    <ClInclude Include="TimeStamp.hpp" />
     <ClInclude Include="TrainMlp.h" />
   </ItemGroup>
   <ItemGroup>
