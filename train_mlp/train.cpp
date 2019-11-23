@@ -18,6 +18,7 @@ int main(int argc, char* const argv[]) {
       std::cerr << "No input json file." << std::endl;
       return 1;
     } else {
+
       RLDNN::TrainMlp mlp(vm["config"].as<std::string>());
       mlp.startTrain();
     }

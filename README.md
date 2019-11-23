@@ -20,4 +20,4 @@ CNN and CUDA support is on going.
 # Great improvments update
 I changed the eigen version to master branch.
 Due to some optimize method which I can't explain it, I gained the 100 times speed improvement.
-Finally, I gained 1.668 times speed up than equivalent python version (python3.7 with numpy)
+Finally, I gained 6 times speed up than equivalent python version (python3.7 with numpy)

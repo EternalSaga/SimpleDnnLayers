@@ -21,6 +21,7 @@ void TrainMlp::startTrain() {
   std::vector<float> trainLossList{};
   std::vector<float> trainAccList{};
   std::vector<float> testAccList{};
+  Eigen::initParallel();
   auto iterPerEpoch = std::max(static_cast<int>(trainSize / batchSize), 1);
   // auto iterPerEpoch = 10;
   RandomChoice randomChoice;
