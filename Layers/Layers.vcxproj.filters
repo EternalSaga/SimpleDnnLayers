@@ -15,16 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="load_mnist.h">
+    <ClInclude Include="OpInterfaces.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BasicOperations.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BasicOperations.cpp">
-      <Filter>Header Files</Filter>
+    <ClCompile Include="testOp.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

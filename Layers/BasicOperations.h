@@ -1,21 +1,20 @@
 #pragma once
-#include <Eigen/Core>
-#include <unsupported/Eigen/CXX11/Tensor>
+#include "OpInterfaces.h"
+
 namespace RLDNN {
-	using namespace Eigen;
-template<size_t Rank1, size_t Rank2>
-class ReLU {
+template <typename Precision, size_t Rank>
+class MultiplyLayer {
+	
  public:
-  explicit ReLU()=default;
-  ~ReLU()=default;
-  decltype<auto> forward(const Tensor<float, Rank1>& x) {
-
-  }
-  decltype<auto> backward(const Tensor<float, Rank2> dout) {
-
+  MultiplyLayer()=default;
+  ~MultiplyLayer()=default;
+  Tensor<Precision, Rank> forward(
+      const std::map<std::string_view,Tensor<Precision, Rank>>& args) {
+    return args["x"] * args["y"];
   }
  private:
-  std::vector<size_t> mask;
 };
+
+static_assert(decltype(hasForward<float,4>(MultiplyLayer<float,4>{}))::value,"This Op does not have forward function.");
 
 }
