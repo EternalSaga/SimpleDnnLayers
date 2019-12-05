@@ -8,8 +8,8 @@ class MultiplyLayer {
   MultiplyLayer() = default;
   ~MultiplyLayer() = default;
   Tensor<Precision, Rank> forward(const OpInOutType<Precision, Rank>& args) {
-    this->x = args["x"];
-    this->y = args["y"];
+    this->x = args.at("x");
+    this->y = args.at("y");
     return x * y;
   }
   OpInOutType<Precision, Rank> backward(const Tensor<Precision, Rank>& dout) {
@@ -39,5 +39,6 @@ class AddLayer {
   }
 };
 static_assert(OpValidation<AddLayer<float, 4>>::valid, OP_CONCEPT_ERR);
+
 
 }  // namespace RLDNN
