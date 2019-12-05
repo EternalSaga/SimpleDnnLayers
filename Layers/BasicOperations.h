@@ -16,6 +16,6 @@ class MultiplyLayer {
  private:
 };
 
-static_assert(decltype(hasForward(MultiplyLayer<float,4>{}))::value,
+static_assert(decltype(hasForward(MultiplyLayer<float, 4>{}))::value,
               "This class does not has forward function");
 }  // namespace RLDNN

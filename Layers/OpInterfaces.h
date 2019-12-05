@@ -14,8 +14,10 @@ auto hasForward = hana::is_valid(
     [](auto&& x)
         -> decltype(x.forward(std::map<std::string_view, Tensor<float, 4>>())) {});
 
-// template <typename Precision, size_t Rank>
-// auto hasBackward = hana::is_valid(
-//    [](auto&& x) -> decltype(x.backward(const Tensor<Precision, Rank>&)) {});
+ 
+ auto hasBackward = hana::is_valid(
+    [](auto&& x) -> decltype(x.backward(Tensor<float, 4>())) {});
+
+ 
 
 }  // namespace RLDNN
