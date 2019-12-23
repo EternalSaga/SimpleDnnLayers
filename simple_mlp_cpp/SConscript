@@ -1,0 +1,12 @@
+import os
+import buildConfig
+#get options and set default value
+debug = ARGUMENTS.get('debug', 1)
+
+config = buildConfig.buildConfig(debug==1)
+
+mlpLibEnv = Environment(CXX=config.CXX,CC=config.CC, CCFLAGS=config.CCFLAGS, CPPPATH=config.incDirs,
+    CPPDEFINES=config.preDifines,ENV = {'PATH' : os.environ['PATH']})
+mlpSource = Glob("./*.cpp")
+print (mlpSource)
+mlpLibEnv.SharedLibrary(target = 'mlpcpp', source = mlpSource,LIBS=config.linkOpt, LIBPATH=config.linkDir)
