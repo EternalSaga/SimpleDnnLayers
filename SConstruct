@@ -1,2 +1,1 @@
-SConscript(['simple_mlp_cpp/SConscript'])
-#SConscript(['train_mlp/SConscript'])
+SConscript(['simple_mlp_cpp/SConscript','Layers/SConscript'])

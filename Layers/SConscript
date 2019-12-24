@@ -1,0 +1,21 @@
+import os
+import buildConfig
+#get options and set default value
+debug = ARGUMENTS.get('debug', 1)
+
+class LayerBuildConfig(buildConfig.buildConfig):
+    def __init__(self, isDebug):
+        super().__init__(isDebug)
+        if(self.isDebug==1):
+            self.targetName="layerTestDebug"
+        else:
+            self.targetName="layerTestRelease"
+
+config = LayerBuildConfig(debug)
+
+layerTestSrcs = Glob("./*.cpp")
+
+layerTestEnv = Environment(CXX=config.CXX,CC=config.CC, CCFLAGS=config.CCFLAGS, CPPPATH=config.incDirs,
+    CPPDEFINES=config.preDifines,ENV = {'PATH' : os.environ['PATH']})
+
+layerTestEnv.Program(target = config.targetName, source = layerTestSrcs,LIBS=config.linkOpt, LIBPATH=config.linkDir)
