@@ -3,7 +3,6 @@
 #include <boost/endian/detail/endian_reverse.hpp>
 #include <cassert>
 #include <cstdint>
-#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <memory>
@@ -11,7 +10,27 @@
 #include <tuple>
 #include <utility>
 #include <vector>
-namespace fs = std::filesystem;
+#ifdef __linux__
+    #if __GNUC__ <8 && __GNUC__ >=7
+    #include <experimental/filesystem>
+    namespace fs = std::experimental::filesystem;
+    #elif __GNUC__ >=8
+    #include <filesystem>
+    namespace fs = std::filesystem;
+    #else
+    #error "Please update gcc to 7 and upper version"
+    #endif
+#endif
+
+#ifdef _WIN64
+    #if _MSC_VER >= 1910
+    #include <filesystem>
+    namespace fs = std::filesystem;
+    #else
+    #error "Please update vs to vs2017 and upper version"
+    #endif
+#endif
+
 namespace RLDNN {
 constexpr size_t MNIST_LENGTH{28 * 28};
 constexpr size_t LABEL_LENGTH{10};
