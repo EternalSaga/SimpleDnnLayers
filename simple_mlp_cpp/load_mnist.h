@@ -18,7 +18,7 @@
     #include <filesystem>
     namespace fs = std::filesystem;
     #else
-    #error "Please update gcc to 7 and upper version"
+    #error "Please update your gcc to gcc7 or upper version"
     #endif
 #endif
 
@@ -27,7 +27,7 @@
     #include <filesystem>
     namespace fs = std::filesystem;
     #else
-    #error "Please update vs to vs2017 and upper version"
+    #error "Please update your vs to vs2017 or upper version"
     #endif
 #endif
 

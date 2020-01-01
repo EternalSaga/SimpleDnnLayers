@@ -42,8 +42,9 @@ public:
     }
     OpInOutType<Precision, Rank> backward(const Tensor<Precision, Rank> &dout)
     {
-        auto dx = dout.at("dx") * (1.0 - this->out) * this->out;
-        return dx;
+        OpInOutType<Precision, Rank> gradient;
+        gradient["dx"] = dout * (1.0 - this->out) * this->out;
+        return gradient;
     }
 };
 static_assert(OpValidation<SigmoidLayer<float, 4>>::valid, OP_CONCEPT_ERR);
