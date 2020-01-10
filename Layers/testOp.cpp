@@ -1,7 +1,7 @@
 //#include "BasicOperations.h"
 #include <iostream>
 #include <cassert>
-#include "ActivationLayers.h"
+#include "ActivationLayers.hpp"
 using namespace RLDNN;
 template <typename Precision, size_t Rank>
 bool tensorIsApprox(const Eigen::Tensor<Precision, Rank> &a, const Eigen::Tensor<Precision, Rank> &b)

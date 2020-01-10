@@ -1,10 +1,10 @@
 class buildConfig(object):
     def __init__(self,isDebug):
-        self.incDirs=["/DataDisk/cpp_libs/boost_1_72_0","/DataDisk/cpp_libs/eigen-git-mirror"]
-        self.linkDir=["/DataDisk/cpp_libs/boost_1_72_0/stage/lib"]
+        self.incDirs=["/home/robin/installFromSource/boost_1_72_0","/home/robin/installFromSource/eigen-git-mirror"]
+        self.linkDir=["/home/robin/installFromSource/boost_1_72_0/stage/lib"]
         self.linkOpt=["pthread" ,"m","dl"]
-        self.CC="gcc-9.2"
-        self.CXX="g++-9.2"
+        self.CC="gcc-9"
+        self.CXX="g++-9"
         self.CCFLAGS=['-std=c++17', '-Wall',"-fpermissive"]
         self.mklroot="/home/robin/intel/mkl"
         self.isDebug=int(isDebug)
