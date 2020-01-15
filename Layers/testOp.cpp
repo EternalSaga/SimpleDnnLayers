@@ -19,11 +19,11 @@ void testSigmoidLayer()
   std::cout << testData << std::endl;
   Tensor<float, 2> expected(4, 3);
   expected.setValues({{1., 1., 1.}, {1., 1., 1.}, {0.78583498, 0.98901306, 0.58175938}, {1., 1., 0.75026011}});
-  Tensor<float, 2> output = sml.forward(OpInOutType<float, 2>{{"x", testData}});
+  Tensor<float, 2> output = sml.forward(TensorsWithNames<float, 2>{{"x", testData}});
   bool isSame = tensorIsApprox<float, 2>(expected, output);
   assert(isSame);
 
-  OpInOutType<float, 2> dx = sml.backward(output);
+  TensorsWithNames<float, 2> dx = sml.backward(output);
   Tensor<float, 2> expectDx(4,3);
   expectDx.setValues({{0,0,0},{0,0,0},{0.13225472 ,0.01074683 ,0.14155102},{0.     ,    0.     ,    0.14057614}});
   isSame = tensorIsApprox<float, 2>(expectDx,dx.at("dx"));

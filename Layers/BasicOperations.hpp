@@ -2,17 +2,17 @@
 #include "OpInterfaces.hpp"
 namespace RLDNN {
 
-template <typename Precision, size_t Rank, Device dev=Device::CPU>
-class MultiplyLayer {
+template <typename Precision, size_t Rank>
+class MultiplyLayer: public LayerInterface<MultiplyLayer<Precision,Rank>,Precision,Rank> {
  public:
   MultiplyLayer() = default;
   ~MultiplyLayer() = default;
-  Tensor<Precision, Rank> forward(const OpInOutType<Precision, Rank>& args) {
+  Tensor<Precision, Rank> forwardImplImpl(const TensorsWithNames<Precision, Rank>& args) {
     this->x = args.at("x");
     this->y = args.at("y");
     return x * y;
   }
-  OpInOutType<Precision, Rank> backward(const Tensor<Precision, Rank>& dout) {
+  TensorsWithNames<Precision, Rank> backwardImpl(const Tensor<Precision, Rank>& dout) {
     std::map<std::string_view, Tensor<Precision, Rank>> gradient;
     gradient["dx"] = dout * this->y;
     gradient["dy"] = dout * this->x;
@@ -24,21 +24,22 @@ class MultiplyLayer {
   Tensor<Precision, Rank> y;
 };
 
-static_assert(OpValidation<MultiplyLayer<float, 4>>::valid, OP_CONCEPT_ERR);
-
-template <typename Precision, size_t Rank, Device dev=Device::CPU>
-class AddLayer {
+template <typename Precision,
+          size_t Rank>
+class AddLayer : public LayerInterface<AddLayer<Precision,Rank>,Precision,Rank> {
  public:
   AddLayer() = default;
   ~AddLayer() = default;
-  Tensor<Precision, Rank> forward(const OpInOutType<Precision, Rank>& args) {
-    return args["x"] + args["y"];
+  Tensor<Precision, Rank> forwardImplImpl(
+      const TensorsWithNames<Precision, Rank>& inputs) {
+    return inputs.at("x") + inputs.at("y");
   }
-  OpInOutType<Precision, Rank> backward(const Tensor<Precision, Rank>& dout) {
-    return std::map{{"dx", dout}, {"dy", dout}};
+  TensorsWithNames<Precision, Rank> backwardImpl(
+      const Tensor<Precision, Rank>& inputD) {
+
+    return std::map{{"dx", inputD}, {"dy", inputD}};
   }
 };
-static_assert(OpValidation<AddLayer<float, 4>>::valid, OP_CONCEPT_ERR);
 
 
 }  // namespace RLDNN

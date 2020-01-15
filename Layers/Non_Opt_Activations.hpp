@@ -6,14 +6,14 @@ extern "C"{
 namespace RLDNN
 {
 template <typename Precision, size_t Rank, Device dev = Device::NON_OPTIMIZE>
-class RelULayer
+class RelULayer: public LayerInterface<RelULayer<Precision,Rank>,Precision,Rank>
 {
     size_t size;
     Eigen::Array<Rank> dimensions;
 public:
     RelULayer() = default;
     ~RelULayer() = default;
-    Tensor<Precision, Rank> forward(const OpInOutType<Precision, Rank> &args)
+    Tensor<Precision, Rank> forwardImpl(const TensorsWithNames<Precision, Rank> &args)
     {
         const Tensor<Precision, Rank> &x = args.at("x");
         this->size=out.size();
@@ -23,9 +23,9 @@ public:
         batchLeakyForward(x.data(),out.data(),size);
         return out;
     }
-    OpInOutType<Precision, Rank> backward(const Tensor<Precision, Rank> &dout)
+    TensorsWithNames<Precision, Rank> backwardImpl(const Tensor<Precision, Rank> &dout)
     {
-        OpInOutType<Precision, Rank> gradient;
+        TensorsWithNames<Precision, Rank> gradient;
         gradient["dx"] = Tensor<Precision, Rank>(dimensions);
         batchLeakyBackward(dout.data(),gradient["dx"].data(),size);
         return gradient;
