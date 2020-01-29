@@ -20,14 +20,14 @@ public:
         this->dimensions = x.dimensions();
         Tensor<Precision, Rank> out(dimensions);
         assert(out.size()==x.size());
-        batchLeakyForward(x.data(),out.data(),size);
+        batchReluForward(x.data(),out.data(),size);
         return out;
     }
     TensorsWithNames<Precision, Rank> backwardImpl(const Tensor<Precision, Rank> &dout)
     {
         TensorsWithNames<Precision, Rank> gradient;
         gradient["dx"] = Tensor<Precision, Rank>(dimensions);
-        batchLeakyBackward(dout.data(),gradient["dx"].data(),size);
+        batchReluBackward(dout.data(),gradient["dx"].data(),size);
         return gradient;
     }
 };

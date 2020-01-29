@@ -15,28 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BasicOperations.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ActivationLayers.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BasicOperations.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Non_Opt_Activations.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Non_Opt_Activations_C_impl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OpInterfaces.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Non_Opt_Activations_C_impl.c">
+    <ClCompile Include="testOp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TestUtils.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
