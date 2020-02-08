@@ -1,13 +1,15 @@
-//#include "BasicOperations.h"
+#define BOOST_TEST_MODULE LayerTest
+#define BOOST_TEST_DYN_LINK
+#include <boost/test/unit_test.hpp>
 #include <iostream>
 #include <cassert>
 #include "Layers/ActivationLayers.hpp"
 #include "TestUtils.hpp"
+using namespace RLDNN;
+using namespace RLDNN::TEST;
 
 
-namespace RLDNN {
-	namespace TEST {
-		void testSigmoidLayer()
+		BOOST_AUTO_TEST_CASE(SigmoidTest)
 		{
 
 			SigmoidLayer<float, 2> sml{};
@@ -24,16 +26,10 @@ namespace RLDNN {
 			Tensor<float, 2> expectDx(4, 3);
 			expectDx.setValues({ {0,0,0},{0,0,0},{0.13225472 ,0.01074683 ,0.14155102},{0.     ,    0.     ,    0.14057614} });
 			isSame = tensorIsApprox<float, 2>(expectDx, dx.at("dx"));
-			assert(isSame);
+			BOOST_TEST(isSame);
 		}
-	}
-}
 
 
 
-int main()
-{
-	using namespace RLDNN::TEST;
-	testSigmoidLayer();
-	return 0;
-}
+
+

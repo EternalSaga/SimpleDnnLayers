@@ -16,6 +16,8 @@ class LayerTestBuildConfig(buildConfig.buildConfig):
             self.targetName="layerTestDebug"
         else:
             self.targetName="layerTestRelease"
+        self.linkDir.append("/home/robin/installFromSource/boost_1_72_0/stage/lib")
+        self.linkOpt.append("boost_unit_test_framework")
 
 config = LayerTestBuildConfig(debug)
 

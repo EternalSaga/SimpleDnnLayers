@@ -1,4 +1,4 @@
-import distro
+import platform
 class buildConfig(object):
     def __init__(self,isDebug):
         self.incDirs=["/home/robin/installFromSource/boost_1_72_0","/home/robin/installFromSource/eigen-git-mirror"]
@@ -38,7 +38,7 @@ class MlpBuildConfig(buildConfig):
             self.targetName="mlpDebug"
         else:
             self.targetName="mlpRelease"
-        distroname = distro.linux_distribution(full_distribution_name=False)
+        distroname = platform.linux_distribution()
         if(distroname[0]=="manjaro"):
             self.incDirs.append("/usr/include/opencv4")
         self.incDirs.append(self.mklroot+"/include")
