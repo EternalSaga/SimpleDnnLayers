@@ -1,1 +1,1 @@
-scons -Q debug=1 -j16
+scons -Q debug=1 -j4

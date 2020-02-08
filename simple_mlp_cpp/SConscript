@@ -7,7 +7,7 @@ config = buildConfig.MlpBuildConfig(debug)
 
 print(config.CCFLAGS)
 
-mlpLibEnv = Environment(CXX=config.CXX,CC=config.CC, CCFLAGS=config.CCFLAGS, CPPPATH=config.incDirs,
+mlpLibEnv = Environment(CXX=config.CXX, CCFLAGS=config.CCFLAGS, CPPPATH=config.incDirs,
     CPPDEFINES=config.preDifines,ENV = {'PATH' : os.environ['PATH']})
 mlpSource = Glob("./*.cpp")
 

@@ -3,19 +3,19 @@ import buildConfig
 #get options and set default value
 debug = ARGUMENTS.get('debug', 1)
 
-class LayerBuildConfig(buildConfig.buildConfig):
+class LayerBuildConfig(buildConfig.buildConfigForC):
     def __init__(self, isDebug):
         super().__init__(isDebug)
         if(self.isDebug==1):
-            self.targetName="layerTestDebug"
+            self.targetName="layerLibDebug"
         else:
-            self.targetName="layerTestRelease"
+            self.targetName="layerLibRelease"
 
 config = LayerBuildConfig(debug)
 
-layerTestSrcs = Glob("./*.cpp")
+LayerSrcs = Glob("./*.c")
 
-layerTestEnv = Environment(CXX=config.CXX,CC=config.CC, CCFLAGS=config.CCFLAGS, CPPPATH=config.incDirs,
+layerEnv = Environment(CC=config.CC, CCFLAGS=config.CCFLAGS, CPPPATH=config.incDirs,
     CPPDEFINES=config.preDifines,ENV = {'PATH' : os.environ['PATH']})
 
-layerTestEnv.Program(target = config.targetName, source = layerTestSrcs,LIBS=config.linkOpt, LIBPATH=config.linkDir)
+layerEnv.SharedLibrary(target = config.targetName, source =LayerSrcs,LIBS=config.linkOpt, LIBPATH=config.linkDir)
