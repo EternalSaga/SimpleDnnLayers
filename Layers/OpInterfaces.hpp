@@ -5,6 +5,7 @@
 #include <type_traits>
 #include <unsupported/Eigen/CXX11/Tensor>
 #include <iostream>
+
 namespace RLDNN
 {
 using namespace Eigen;
@@ -15,32 +16,31 @@ enum class Device
     NON_OPTIMIZE
 };
 
-template <typename Precision>
-using Tensor4D = Eigen::Tensor<Precision, 4>;
-
-template <typename Precision,
-          size_t Rank,
-          StorageOptions stgOpt = Eigen::ColMajor>
-using TensorsWithNames = std::map<std::string_view, Tensor<Precision, Rank, stgOpt>>;
-
-template <typename LayerImpl,
-          typename Precision,
-          size_t Rank,
-          Device dev = Device::CPU,
-          StorageOptions stgOpt = Eigen::ColMajor>
-class LayerInterface
+enum class Device
 {
+	CPU,
+	CUDA,
+	NON_OPTIMIZE
+};
+
+template <typename TensorType>
+	using TensorsWithNames = std::map<std::string_view, TensorType>;
+template <typename LayerImpl,
+	typename TensorType, Device dev>
+	class LayerInterface
+{
+    static_assert(std::is_class_v<TenosrType,Eigen::Tensor>);
 public:
-    Tensor<Precision, Rank> forward(
-        const TensorsWithNames<Precision, Rank, stgOpt> &inputs)
-    {
-        return static_cast<LayerImpl *>(this)->forwardImpl(inputs);
-    }
-    TensorsWithNames<Precision, Rank, stgOpt> backward(
-        const Tensor<Precision, Rank> &inputD)
-    {
-        return static_cast<LayerImpl *>(this)->backwardImpl(inputD);
-    }
+	TensorType forward(
+		const TensorsWithNames<TensorType>& inputs)
+	{
+		return static_cast<LayerImpl*>(this)->forwardImpl(inputs);
+	}
+	TensorsWithNames<TensorType> backward(
+		const TensorType& inputD)
+	{
+		return static_cast<LayerImpl*>(this)->backwardImpl(inputD);
+	}
 };
 
 } // namespace RLDNN
