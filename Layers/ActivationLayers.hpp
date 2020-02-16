@@ -4,70 +4,68 @@ extern "C"{
 }
 namespace RLDNN
 {
-template <typename Precision, size_t Rank, Device dev = Device::CPU>
-class RelULayer : public LayerInterface<RelULayer<Precision, Rank>, Precision, Rank>
+template <typename TensorType, Device dev = Device::CPU>
+class RelULayer : public LayerInterface<RelULayer<TensorType>,TensorType,dev>
 {
 private:
-    Tensor<bool, Rank> mask;
+    Tensor<bool, TensorType::NumDimensions> mask;
 
 public:
     RelULayer() = default;
     ~RelULayer() = default;
-    Tensor<Precision, Rank> forwardImpl(const TensorsWithNames<Precision, Rank> &args)
+    TensorType forwardImpl(const TensorsWithNames<TensorType> &args)
     {
+        const TensorType &x = args.at("x");
         if constexpr (dev == Device::CPU)
         {
-            const Tensor<Precision, Rank> &x = args.at("x");
             this->mask = x > 0.f;
-            Tensor<Precision, Rank> zeros(x.dimensions());
+            TensorType zeros(x.dimensions());
             zeros.setZero();
-            Tensor<Precision, Rank> out = mask.select(x, zeros);
+            TensorType out = mask.select(x, zeros);
+            return out;
         }
         else if(dev == Device::NON_OPTIMIZE)
         {
-            Tensor<Precision, Rank> out(dimensions);
-            const Tensor<Precision, Rank> &x = args.at("x");
-            this->size = out.size();
-            this->dimensions = x.dimensions();
-
-            assert(out.size() == x.size());
-            batchReluForward(x.data(), out.data(), size);
+            TensorType out(x.dimensions());
+            const TensorType &x = args.at("x");
+            batchReluForward(x.data(), out.data(), x.size());
+            return out;
         }
-        return out;
+        
     }
-    TensorsWithNames<Precision, Rank> backward(const Tensor<Precision, Rank> &dout)
+    TensorsWithNames<TensorType> backward(const TensorType &dout)
     {
         
-        TensorsWithNames<Precision, Rank> gradient;
+        TensorsWithNames<TensorType> gradient;
         if constexpr (dev == Device::CPU){
-            gradient["dx"] = mask.template cast<Precision>();
+            gradient["dx"] = mask.template cast<TensorType::Scalar>();
         }
         else if(dev == Device::NON_OPTIMIZE){
-            gradient["dx"] = Tensor<Precision, Rank>(dimensions);
-        batchReluBackward(dout.data(),gradient["dx"].data(),size);
+            gradient["dx"] = TensorType(dout.dimensions());
+        batchReluBackward(dout.data(),gradient["dx"].data(),dout.size());
         }
         return gradient;
     }
 };
 
-template <typename Precision, size_t Rank>
-class SigmoidLayer : public LayerInterface<SigmoidLayer<Precision, Rank>, Precision, Rank>
+template <typename TensorType, Device dev = Device::CPU>
+class SigmoidLayer : public LayerInterface<SigmoidLayer<TensorType>,TensorType,dev>
 {
 private:
-    Tensor<Precision, Rank> out;
+    TensorType out;
 
 public:
     SigmoidLayer() = default;
     ~SigmoidLayer() = default;
-    Tensor<Precision, Rank> forwardImpl(const TensorsWithNames<Precision, Rank> &args)
+    TensorType forwardImpl(const TensorsWithNames<TensorType> &args)
     {
         auto negIn = -args.at("x");
         this->out = 1.f / (1.f + negIn.exp());
         return out;
     }
-    TensorsWithNames<Precision, Rank> backward(const Tensor<Precision, Rank> &dout)
+    TensorsWithNames<TensorType> backward(const TensorType &dout)
     {
-        TensorsWithNames<Precision, Rank> gradient;
+        TensorsWithNames<TensorType> gradient;
         gradient["dx"] = dout * (1.0 - this->out) * this->out;
         return gradient;
     }

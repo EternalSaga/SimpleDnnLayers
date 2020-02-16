@@ -9,6 +9,7 @@
 namespace RLDNN
 {
 using namespace Eigen;
+
 enum class Device
 {
     CPU,
@@ -16,31 +17,25 @@ enum class Device
     NON_OPTIMIZE
 };
 
-enum class Device
-{
-	CPU,
-	CUDA,
-	NON_OPTIMIZE
-};
-
 template <typename TensorType>
-	using TensorsWithNames = std::map<std::string_view, TensorType>;
+using TensorsWithNames = std::map<std::string_view, TensorType>;
 template <typename LayerImpl,
-	typename TensorType, Device dev>
-	class LayerInterface
+          typename TensorType, Device dev>
+class LayerInterface
 {
-    static_assert(std::is_class_v<TenosrType,Eigen::Tensor>);
+    
 public:
-	TensorType forward(
-		const TensorsWithNames<TensorType>& inputs)
-	{
-		return static_cast<LayerImpl*>(this)->forwardImpl(inputs);
-	}
-	TensorsWithNames<TensorType> backward(
-		const TensorType& inputD)
-	{
-		return static_cast<LayerImpl*>(this)->backwardImpl(inputD);
-	}
+
+    TensorType forward(
+        const TensorsWithNames<TensorType> &inputs)
+    {
+        return static_cast<LayerImpl *>(this)->forwardImpl(inputs);
+    }
+    TensorsWithNames<TensorType> backward(
+        const TensorType &inputD)
+    {
+        return static_cast<LayerImpl *>(this)->backwardImpl(inputD);
+    }
 };
 
 } // namespace RLDNN
