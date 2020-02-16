@@ -26,6 +26,8 @@ class LayerInterface
     
 public:
 
+    static_assert(std::is_same_v<TensorType,Eigen::Tensor<typename TensorType::Scalar,TensorType::NumDimensions,
+    TensorType::Layout>>,"Arguement TensorType is not a Eigen::Tensor type");
     TensorType forward(
         const TensorsWithNames<TensorType> &inputs)
     {
