@@ -4,8 +4,8 @@ extern "C"{
 }
 namespace RLDNN
 {
-template <typename TensorType, Device dev = Device::CPU>
-class RelULayer : public LayerInterface<RelULayer<TensorType>,TensorType,dev>
+template <typename TensorType, Device dev>
+class RelULayer : public LayerInterface<RelULayer<TensorType,dev>,TensorType,dev>
 {
 private:
     Tensor<bool, TensorType::NumDimensions> mask;

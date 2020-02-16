@@ -26,7 +26,15 @@ BOOST_AUTO_TEST_CASE(SigmoidTest)
 	BOOST_TEST(isSame);
 }
 
-BOOST_AUTO_TEST_CASE(ReLUTest_C){
-	RelULayer<Eigen::Tensor<float,4>,Device::NON_OPTIMIZE> ReluC{};
-	
+BOOST_AUTO_TEST_CASE(ReLUTest_C)
+{
+	RelULayer<Eigen::Tensor<float, 2>, Device::NON_OPTIMIZE> ReluC{};
+	Eigen::Tensor<float, 2> testData(2, 3);
+	testData.setValues({{-1,0,2},{2,1,-1}});
+	Eigen::Tensor<float, 2> forwardExpected(2, 3);
+	forwardExpected.setValues({{0,0,2},{2,1,0}});
+	auto forwardResult = ReluC.forward(TensorsWithNames<Eigen::Tensor<float, 2>>{{"x", testData}});
+	bool isSame = tensorIsApprox<float,2>(forwardResult,forwardExpected);
+	BOOST_TEST(isSame);
+
 }
