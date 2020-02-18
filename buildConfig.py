@@ -1,6 +1,7 @@
 import platform
 class buildConfig(object):
     def __init__(self,isDebug):
+
         self.incDirs=["/home/otaku/libs/boost_1_72_0","/home/otaku/libs/eigen-git-mirror"]
         self.linkDir=["/home/otaku/libs/boost_1_72_0/stage/lib"]
         self.linkOpt=["pthread" ,"m","dl"]
@@ -8,6 +9,7 @@ class buildConfig(object):
         self.CXX="g++"
         self.CCFLAGS=['-std=c++17', '-Wall',"-fpermissive"]
         self.mklroot="/home/otaku/intel"
+
         self.isDebug=int(isDebug)
         if(self.isDebug==1):
             self.preDifines=['-DDEBUG']

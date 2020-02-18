@@ -38,7 +38,7 @@ public:
         
         TensorsWithNames<TensorType> gradient;
         if constexpr (dev == Device::CPU){
-            gradient["dx"] = mask.template cast<TensorType::Scalar>();
+            gradient["dx"] = mask.template cast<typename TensorType::Scalar>();
         }
         else if(dev == Device::NON_OPTIMIZE){
             gradient["dx"] = TensorType(dout.dimensions());

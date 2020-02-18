@@ -6,7 +6,7 @@ Visual Studio 2019 with C++17
 Update: Support Linux building: with scons and g++ 9.2 or 7.4 (-std=c++17)  
 # 3rd party library
 Boost 1.71.0: Endian Library, Property Tree Library, Program Options Lirary  
-Eigen: For matrix manipulation. I use the master branch at presnet. https://github.com/eigenteam/eigen-git-mirror  
+Eigen: For matrix manipulation. I use the master branch at presnet. https://gitlab.com/libeigen/eigen#  
 OpenCV: Optional, I only use it for some tests. 
 MKL: Optional, if you are not satisfied with the speed of Eigen, you can link it to Eigen.  
 # On going
