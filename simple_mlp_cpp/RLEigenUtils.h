@@ -1,5 +1,6 @@
 #pragma once
 #include <Eigen/Core>
+#include <Eigen/LU>
 #include <random>
 #include <set>
 namespace RLDNN {

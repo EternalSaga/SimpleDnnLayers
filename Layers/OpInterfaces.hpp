@@ -1,4 +1,5 @@
 #pragma once
+#include <Eigen/LU>
 #include <Eigen/Core>
 #include <map>
 #include <string_view>

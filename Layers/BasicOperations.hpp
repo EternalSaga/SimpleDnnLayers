@@ -3,45 +3,45 @@
 namespace RLDNN
 {
 
-template <typename Precision, size_t Rank>
-class MultiplyLayer : public LayerInterface<MultiplyLayer<Precision, Rank>, Precision, Rank>
+template <typename TensorType, Device dev>
+class MultiplyLayer : public LayerInterface<MultiplyLayer<TensorType,dev>, TensorType,dev>
 {
 public:
   MultiplyLayer() = default;
   ~MultiplyLayer() = default;
-  Tensor<Precision, Rank> forwardImplImpl(const TensorsWithNames<Precision, Rank> &args)
+  TensorType forwardImplImpl(const TensorsWithNames<TensorType> &args)
   {
     this->x = args.at("x");
     this->y = args.at("y");
     return x * y;
   }
-  TensorsWithNames<Precision, Rank> backwardImpl(const Tensor<Precision, Rank> &dout)
+  TensorsWithNames<TensorType> backwardImpl(const TensorType &dout)
   {
-    std::map<std::string_view, Tensor<Precision, Rank>> gradient;
+    std::map<std::string_view, TensorType> gradient;
     gradient["dx"] = dout * this->y;
     gradient["dy"] = dout * this->x;
     return gradient;
   }
 
 private:
-  Tensor<Precision, Rank> x;
-  Tensor<Precision, Rank> y;
+  TensorType x;
+  TensorType y;
 };
 
-template <typename Precision,
-          size_t Rank>
-class AddLayer : public LayerInterface<AddLayer<Precision, Rank>, Precision, Rank>
+template <typename TensorType,
+          Device dev>
+class AddLayer : public LayerInterface<AddLayer<TensorType,dev>, TensorType,dev>
 {
 public:
   AddLayer() = default;
   ~AddLayer() = default;
-  Tensor<Precision, Rank> forwardImplImpl(
-      const TensorsWithNames<Precision, Rank> &inputs)
+  TensorType forwardImplImpl(
+      const TensorsWithNames<TensorType> &inputs)
   {
     return inputs.at("x") + inputs.at("y");
   }
-  TensorsWithNames<Precision, Rank> backwardImpl(
-      const Tensor<Precision, Rank> &inputD)
+  TensorsWithNames<TensorType> backwardImpl(
+      const TensorType &inputD)
   {
 
     return std::map{{"dx", inputD}, {"dy", inputD}};
