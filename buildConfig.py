@@ -1,13 +1,15 @@
 import platform
 class buildConfig(object):
     def __init__(self,isDebug):
-        self.incDirs=["/home/robin/installFromSource/boost_1_72_0","/home/robin/installFromSource/eigen"]
-        self.linkDir=["/home/robin/installFromSource/boost_1_72_0/stage/lib"]
+
+        self.incDirs=["/home/otaku/libs/boost_1_72_0","/home/otaku/libs/eigen-git-mirror"]
+        self.linkDir=["/home/otaku/libs/boost_1_72_0/stage/lib"]
         self.linkOpt=["pthread" ,"m","dl"]
 
         self.CXX="g++"
-        self.CCFLAGS=['-std=c++17', '-Wall']
-        self.mklroot="/home/robin/intel/mkl"
+        self.CCFLAGS=['-std=c++17', '-Wall',"-fpermissive"]
+        self.mklroot="/home/otaku/intel"
+
         self.isDebug=int(isDebug)
         if(self.isDebug==1):
             self.preDifines=['-DDEBUG']
@@ -29,8 +31,7 @@ class buildConfigForC(buildConfig):
             self.preDifines=['-DNDEBUG']
             self.CCFLAGS.append('-O3')
 
-class MlpBuildConfig(buildConfig):
-    
+class MlpBuildConfig(buildConfig):    
     def __init__(self,isDebug):
         
         buildConfig.__init__(self,isDebug)

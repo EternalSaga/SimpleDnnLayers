@@ -12,7 +12,13 @@ class LayerTestBuildConfig(buildConfig.buildConfig):
     def __init__(self, isDebug):
         super().__init__(isDebug)
         self.incDirs.append("..")
-        self.linkDir.append(["/home/robin/installFromSource/boost_1_72_0/stage/lib","/home/robin/RLDNN/simple-two-layers-mlp/Layers"])
+
+        if(self.isDebug==1):
+            self.targetName="layerTestDebug"
+            self.linkOpt.append("layerLibDebug")
+        else:
+            self.targetName="layerTestRelease"
+        self.linkDir.append(["/home/otaku/libs/boost_1_72_0/stage/lib","/home/otaku/simple-two-layers-mlp/Layers"])
         self.linkOpt.append("boost_unit_test_framework")
 
 config = LayerTestBuildConfig(debug)
