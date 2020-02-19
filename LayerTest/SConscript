@@ -33,5 +33,4 @@ print ("Start compiling test")
 for targetName in targetSrcsMap:
     print("Compiling " +targetName)
     testEnv.Program(target = targetName, source = targetSrcsMap[targetName],LIBS=config.linkOpt, LIBPATH=config.linkDir)
-    os.system("./"+targetName)
 
