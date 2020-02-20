@@ -1,14 +1,15 @@
 import platform
+from externalLibs import *
 class buildConfig(object):
     def __init__(self,isDebug):
-
-        self.incDirs=["/home/otaku/libs/boost_1_72_0","/home/otaku/libs/eigen-git-mirror"]
-        self.linkDir=["/home/otaku/libs/boost_1_72_0/stage/lib"]
+        self.lib = Libs()
+        self.incDirs=[self.lib.boost,self.lib.eigen]
+        self.linkDir=[self.lib.boost + "/stage/lib"]
         self.linkOpt=["pthread" ,"m","dl"]
 
         self.CXX="g++"
         self.CCFLAGS=['-std=c++17', '-Wall',"-fpermissive"]
-        self.mklroot="/home/otaku/intel"
+        self.mklroot=self.lib.mkl
 
         self.isDebug=int(isDebug)
         if(self.isDebug==1):

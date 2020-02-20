@@ -1,5 +1,6 @@
 import os
 import buildConfig
+from externalLibs import *
 #get options and set default value
 debug = ARGUMENTS.get('debug', 1)
 
@@ -12,13 +13,13 @@ class LayerTestBuildConfig(buildConfig.buildConfig):
     def __init__(self, isDebug):
         super().__init__(isDebug)
         self.incDirs.append("..")
-
+        self.lib = Libs()
         if(self.isDebug==1):
             self.targetName="layerTestDebug"
             self.linkOpt.append("layerLibDebug")
         else:
             self.targetName="layerTestRelease"
-        self.linkDir.append(["/home/otaku/libs/boost_1_72_0/stage/lib","/home/otaku/simple-two-layers-mlp/Layers"])
+        self.linkDir.append([self.lib.boost + "/stage/lib","../Layers"])
         self.linkOpt.append("boost_unit_test_framework")
 
 config = LayerTestBuildConfig(debug)
