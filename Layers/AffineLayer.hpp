@@ -1,4 +1,5 @@
 #pragma once
+
 #include "OpInterfaces.hpp"
 
 namespace RLDNN
@@ -28,13 +29,14 @@ namespace RLDNN
 		}
 		TensorsWithNames<TensorType> backward(
 			const TensorType& inputD) {
-			TensorType dx(inputD * (Eigen::Transpose(this->weight)));
-			this->dW = this->x * inputD;
+			//Transpose and make matrix production on the last two dimension
+			constexpr int lastIdx = TensorType::Dimensions::max_size();
+			TensorType dx(inputD.contract(this->weight, Eigen::array<int, 2>{lastIdx, lastIdx-1}));
+			//Make matrix production on the last two dimension
+			this->dW = this->x.contract(inputD, Eigen::array<int, 2>{lastIdx - 1, lastIdx});
 			//Reduce by dimension N
 			this->dB = inputD.sum(Eigen::array<uint32_t,1>({ 0 }));
 			dx.reshape(this->originalXShape);
 			return TensorsWithNames<TensorType>{ {"dx", dx}};
 		}
 	};
-
-} // namespace RLDNN
