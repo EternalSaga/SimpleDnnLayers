@@ -4,7 +4,6 @@
 
 namespace RLDNN
 {
-	//dimension's order is assumed as NCHW
 	template <typename TensorType, Device dev>
 	class AffineLayer : public LayerInterface<AffineLayer<TensorType, dev>, TensorType, dev>
 	{
@@ -12,9 +11,7 @@ namespace RLDNN
 		TensorType weight;
 		TensorType bias;
 		TensorType x;
-
 		TensorType dW;
-
 		Eigen::Tensor<typename TensorType::Scalar, 1> dB;
 		constexpr static size_t lastIdx = (TensorType::NumDimensions - 1);
 	public:
@@ -26,7 +23,6 @@ namespace RLDNN
 			this->x = argX.at("x");
 			Eigen::array<Eigen::IndexPair<int>, 1> productDims = { Eigen::IndexPair<int>(lastIdx,lastIdx - 1) };
 			TensorType out = x.contract(weight, productDims) + bias;
-			//TensorType out;
 			return out;
 		}
 		TensorsWithNames<TensorType> backward(

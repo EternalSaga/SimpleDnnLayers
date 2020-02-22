@@ -12,5 +12,10 @@ MKL: Optional, if you are not satisfied with the speed of Eigen, you can link it
 # On going
 Computational graph is on going.  
 Next plan is CNN supporting.  
-# Great improvments update
+# Performance
 Finally, I gained 6 times speed up than equivalent python version (python3.7 with numpy)
+# Layer complete progress
+Sigmoid Layer  
+Relu Layer  
+Affine Layer (Fully Conneted Layer)  
+Pooling Layer is on Going  
