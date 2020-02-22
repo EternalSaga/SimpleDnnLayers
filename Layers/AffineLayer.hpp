@@ -12,11 +12,11 @@ namespace RLDNN
 		TensorType weight;
 		TensorType bias;
 		TensorType x;
-		Eigen::array<uint32_t, TensorType::NumDimensions> originalXShape;
+
 		TensorType dW;
 
-		Eigen::Tensor<typename TensorType::Scalar,1> dB;
-
+		Eigen::Tensor<typename TensorType::Scalar, 1> dB;
+		constexpr static size_t lastIdx = (TensorType::NumDimensions - 1);
 	public:
 		AffineLayer() = delete;
 		AffineLayer(TensorsWithNames<TensorType> weightBias) : weight(weightBias.at("weight")),
@@ -24,19 +24,22 @@ namespace RLDNN
 		~AffineLayer() = default;
 		TensorType forwardImpl(const TensorsWithNames<TensorType>& argX) {
 			this->x = argX.at("x");
-			TensorType out = x * weight + bias;
+			Eigen::array<Eigen::IndexPair<int>, 1> productDims = { Eigen::IndexPair<int>(lastIdx,lastIdx - 1) };
+			TensorType out = x.contract(weight, productDims) + bias;
+			//TensorType out;
 			return out;
 		}
 		TensorsWithNames<TensorType> backward(
 			const TensorType& inputD) {
-			//Transpose and make matrix production on the last two dimension
-			constexpr int lastIdx = TensorType::Dimensions::max_size();
-			TensorType dx(inputD.contract(this->weight, Eigen::array<int, 2>{lastIdx, lastIdx-1}));
-			//Make matrix production on the last two dimension
-			this->dW = this->x.contract(inputD, Eigen::array<int, 2>{lastIdx - 1, lastIdx});
+			//Make matrix production on the last two dimension，transpose weight
+			Eigen::array<Eigen::IndexPair<int>, 1> productDims = { Eigen::IndexPair<int>(lastIdx, lastIdx) };
+			TensorType dx(inputD.contract(this->weight, productDims));
+			//Make matrix production on the last two dimension, transpose x
+			productDims = { Eigen::IndexPair<int>{lastIdx-1, lastIdx - 1} };
+			this->dW = this->x.contract(inputD, productDims);
 			//Reduce by dimension N
-			this->dB = inputD.sum(Eigen::array<uint32_t,1>({ 0 }));
-			dx.reshape(this->originalXShape);
+			this->dB = inputD.sum(Eigen::array<uint32_t, 1>({ 0 }));
 			return TensorsWithNames<TensorType>{ {"dx", dx}};
 		}
 	};
+}
