@@ -1,3 +1,4 @@
+#pragma once
 #include <stdint.h>
 static inline float relu_activate(float x){return x*(x>0);}
 static inline float relu_gradient(float x){return (x>0);}

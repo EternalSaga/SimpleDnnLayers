@@ -1,7 +1,7 @@
 #pragma once
 
-//Compute C = ALPHA * A * B + BETA * C
 /*
+** Compute C = ALPHA * A * B + BETA * C
 **  输入： A,B,C   输入矩阵（一维数组格式，按行存储，所有行并成一行）
 **        ALPHA   系数
 **        BETA    系数
@@ -18,3 +18,5 @@ void gemm(int TA, int TB, int M, int N, int K, float ALPHA,
           float *B, int ldb,
           float BETA,
           float *C, int ldc);
+
+void add_bias(float *output, float *biases, int batch, int n, int size);
