@@ -1,0 +1,24 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build task",
+            "type": "shell",
+            "command": "${workspaceFolder}/buildDebug.sh",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "g++ build active file",
+            "command": "${workspaceFolder}/buildDebug.sh",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        }
+    ]
+}

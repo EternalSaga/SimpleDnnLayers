@@ -24,7 +24,7 @@ class LayerTestBuildConfig(buildConfig.buildConfig):
 
 config = LayerTestBuildConfig(debug)
 
-testCaseNames=["activation"]
+testCaseNames=["activation","pool"]
 #,"base","pooling","affine","convolution"
 testCaseSrcs = list(map(lambda x: x+"Test.cpp",testCaseNames))
 if int(debug)==1:
