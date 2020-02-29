@@ -10,13 +10,15 @@ class buildConfig(object):
         self.CXX="g++"
         self.CCFLAGS=['-std=c++17', '-Wall',"-fpermissive"]
         self.mklroot=self.lib.mkl
-
+        self.incDirs.append(self.mklroot+"/include")
+        self.linkDir.append(self.mklroot+"/lib/intel64")
+        self.linkOpt.append(["mkl_intel_lp64","mkl_sequential" ,"mkl_core"])
         self.isDebug=int(isDebug)
         if(self.isDebug==1):
-            self.preDifines=['-DDEBUG']
+            self.preDifines=['DEBUG']
             self.CCFLAGS.append('-g')
         else:
-            self.preDifines=['-DNDEBUG']
+            self.preDifines=['NDEBUG']
             self.CCFLAGS.append('-O3')
 
 class buildConfigForC(buildConfig):
@@ -25,11 +27,12 @@ class buildConfigForC(buildConfig):
         self.CC="gcc"
         self.CCFLAGS=['-std=c99','-Wall']
         self.isDebug=int(isDebug)
+        
         if(self.isDebug==1):
-            self.preDifines=['-DDEBUG']
+            self.preDifines=['DEBUG']
             self.CCFLAGS.append('-g')
         else:
-            self.preDifines=['-DNDEBUG']
+            self.preDifines=['NDEBUG']
             self.CCFLAGS.append('-O3')
 
 class MlpBuildConfig(buildConfig):    
@@ -43,9 +46,7 @@ class MlpBuildConfig(buildConfig):
         distroname = platform.linux_distribution()
         if(distroname[0]=="manjaro"):
             self.incDirs.append("/usr/include/opencv4")
-        self.incDirs.append(self.mklroot+"/include")
-        self.linkDir.append(self.mklroot+"/lib/intel64")
-        self.linkOpt.append(["mkl_intel_lp64","mkl_sequential" ,"mkl_core"])
+
         self.preDifines.append("EIGEN_USE_MKL_ALL")
 
 

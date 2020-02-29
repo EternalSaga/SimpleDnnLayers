@@ -1,11 +1,13 @@
 import os
 import buildConfig
+
 #get options and set default value
 debug = ARGUMENTS.get('debug', 1)
 
 class LayerBuildConfig(buildConfig.buildConfigForC):
     def __init__(self, isDebug):
         super().__init__(isDebug)
+        self.preDifines.append("USE_MKL")
         if(self.isDebug==1):
             self.targetName="layerLibDebug"
         else:
@@ -15,7 +17,7 @@ config = LayerBuildConfig(debug)
 
 LayerSrcs = Glob("./*.c")
 
-layerEnv = Environment(CC=config.CC, CCFLAGS=config.CCFLAGS, CPPPATH=config.incDirs,
+layerEnv = Environment(CC=config.CC, CFLAGS=config.CCFLAGS, CPPPATH=config.incDirs,
     CPPDEFINES=config.preDifines,ENV = {'PATH' : os.environ['PATH']})
 
-layerEnv.SharedLibrary(target = config.targetName, source =LayerSrcs,LIBS=config.linkOpt, LIBPATH=config.linkDir)
+layerEnv.SharedLibrary(target = config.targetName, source=LayerSrcs,LIBS=config.linkOpt, LIBPATH=config.linkDir)
