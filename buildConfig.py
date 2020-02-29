@@ -14,6 +14,7 @@ class buildConfig(object):
         self.linkDir.append(self.mklroot+"/lib/intel64")
         self.linkOpt.append(["mkl_intel_lp64","mkl_sequential" ,"mkl_core"])
         self.isDebug=int(isDebug)
+        
         if(self.isDebug==1):
             self.preDifines=['DEBUG']
             self.CCFLAGS.append('-g')

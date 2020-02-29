@@ -1,11 +1,9 @@
 #pragma once
-#include "OpInterfaces.hpp"
-
 extern "C"
 {
 #include "Non_Opt_Affine_C.h"
 }
-
+#include "OpInterfaces.hpp"
 namespace RLDNN
 {
 template <typename TensorType, Device dev>

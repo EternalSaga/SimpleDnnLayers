@@ -21,6 +21,7 @@ class LayerTestBuildConfig(buildConfig.buildConfig):
             self.targetName="layerTestRelease"
         self.linkDir.append([self.lib.boost + "/stage/lib","../Layers"])
         self.linkOpt.append("boost_unit_test_framework")
+        self.preDifines.append("USE_MKL")
 
 config = LayerTestBuildConfig(debug)
 
