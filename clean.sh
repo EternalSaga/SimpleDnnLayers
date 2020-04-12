@@ -1,2 +1,2 @@
-source ~/venvs/base/bin/activate
+source ~/venv/base/bin/activate
 scons -c

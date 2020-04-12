@@ -35,8 +35,9 @@ public:
 		{
 			TensorType out(x.dimension(0), weight.dimension(1));
 			out.setZero();
-			ForwardArgs fa{x.data(),weight.data(),bias.data(),x.dimension(0),x.dimension(1),weight.dimension(1)};
-			affineForward(fa, out.data(), out.size());
+			ForwardArgs fa{x.data(),weight.data(),bias.data(),x.dimension(0),weight.dimension(1),x.dimension(1)};
+			
+			affineForward(fa, out.data());
 			return out;
 		}
 	}
@@ -61,6 +62,7 @@ public:
 			this->dW = TensorType(this->x.dimension(1),this->weight.dimension(1));
 			this->dB = Eigen::Tensor<typename TensorType::Scalar, 1>(this->weight.dimension(1));
 			dx.setZero();dW.setZero();dB.setZero();
+
 			BackwardArgs ba{inputD.data(),weight.data(),bias.data(),{inputD.dimension(0),inputD.dimension(1)},{weight.dimension(0),weight.dimension(1)},bias.dimension(0)};
 			BackwardOut bo{dx.data(),dW.data(),dB.data(),{dx.dimension(0),dx.dimension(1)}};
 			affineBackward(ba,bo);
