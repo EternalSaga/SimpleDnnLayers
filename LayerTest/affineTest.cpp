@@ -92,9 +92,8 @@ BOOST_AUTO_TEST_CASE(AffineCTest)
 	bool isSame = tensorIsApprox(outputX, expectForward);
 
 	BOOST_TEST(isSame);
-	// al.backward(outputX);
-	// auto backwardResult = al.backward(outputX);
-	// isSame = tensorIsApprox(expectBackward, backwardResult.at("dx"));
-	// std::cout << backwardResult.at("dx") << std::endl;
-	// BOOST_TEST(isSame);
+	al.backward(outputX);
+	auto backwardResult = al.backward(outputX);
+	isSame = tensorIsApprox(expectBackward, backwardResult.at("dx"));
+	BOOST_TEST(isSame);
 }
