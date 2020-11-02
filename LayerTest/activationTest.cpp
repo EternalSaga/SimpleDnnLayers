@@ -3,7 +3,7 @@
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 #include <cassert>
-#include <Layers/ActivationLayers.hpp>
+#include <ActivationLayers.hpp>
 #include "TestUtils.hpp"
 using namespace RLDNN;
 using namespace RLDNN::TEST;

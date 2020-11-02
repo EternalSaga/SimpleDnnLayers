@@ -2,6 +2,8 @@
 
 #ifdef USE_MKL
 #include <mkl.h>
+#else
+#include <cblas.h>
 #endif
 
 // A    simlified sgemm used to compute C = A crossProduct B;

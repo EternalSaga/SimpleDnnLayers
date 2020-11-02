@@ -1,5 +1,5 @@
 #include "PoolingLayer.hpp"
-#include "../include/TestUtils.hpp"
+#include "TestUtils.hpp"
 #define BOOST_TEST_MODULE LayerTest
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>

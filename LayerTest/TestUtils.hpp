@@ -1,5 +1,5 @@
 #pragma once
-#include "Layers/OpInterfaces.hpp"
+#include "OpInterfaces.hpp"
 namespace RLDNN {
 	namespace TEST {
         template <typename TensorType>

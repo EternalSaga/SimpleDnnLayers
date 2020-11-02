@@ -3,7 +3,7 @@
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 #include <cassert>
-#include "Layers/AffineLayer.hpp"
+#include "AffineLayer.hpp"
 #include "TestUtils.hpp"
 using namespace RLDNN;
 using namespace RLDNN::TEST;
