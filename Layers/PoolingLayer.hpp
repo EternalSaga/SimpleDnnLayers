@@ -1,4 +1,6 @@
 #pragma once
+#include "OpInterfaces.hpp"
+
 
 
 #include <math.h>
@@ -31,7 +33,7 @@ namespace RLDNN
        
     public:
         PoolingLayer() = delete;
-        PoolingLayer(TensorsWithNames<TensorType> argX, std::vector<int> pool_size,std::vector<int> strides, PoolingMethod pooling_method,PaddingType padding_type = PADDING_VALID)
+        PoolingLayer( std::vector<int> pool_size,std::vector<int> strides, PoolingMethod pooling_method,PaddingType padding_type = PADDING_VALID)
         {
             m_hksize = pool_size[0];
             m_wksize = pool_size[1];
@@ -40,15 +42,15 @@ namespace RLDNN
 
             m_padding_type = padding_type;
             m_pooling_method = pooling_method;
-            this->x = argX.at("x");
+            
         }
         ~PoolingLayer() = default;
 
 
-    
-        TensorType forwardImpl()
+      
+        TensorType forwardImpl(TensorsWithNames<TensorType> argX,std::ofstream& outt)
         {
-
+            this->x = argX.at("x");
             Eigen::array<int, 2> reduction_dims{ 2,3 };
 
             Eigen::DSizes<int, 4> post_reduce_dims = get_top_shape(x);
@@ -58,7 +60,7 @@ namespace RLDNN
                 post_reduce_dims = get_top_shape_same(x);
                 patches = x.extract_image_patches(m_hksize, m_wksize, m_hstride, m_wstride, 1, 1, Eigen::PADDING_SAME);
             }
-       
+            
             Tensor3xf pooling(post_reduce_dims[0], post_reduce_dims[1] * post_reduce_dims[2], post_reduce_dims[3]);
             Eigen::Tensor<Mask, 3,Eigen::RowMajor> mask(post_reduce_dims[0], post_reduce_dims[1] * post_reduce_dims[2], post_reduce_dims[3]);
       
@@ -72,17 +74,17 @@ namespace RLDNN
           
                     pooling= patches.mean(reduction_dims);
                     writerT(pooling, outt);
-                    
+                   
                     out = pooling.reshape(post_reduce_dims);
-              
+                   
                     break;
 
                 case max:
                     pooling=maximum_cc(patches,reduction_dims, post_reduce_dims, mask);
                     writerT(pooling, outt);
-                    
+                   
                     out = pooling.reshape(post_reduce_dims);
-               
+                   
                     maxmask = mask.reshape(post_reduce_dims);
                    
                     break;
@@ -96,17 +98,18 @@ namespace RLDNN
                 {
                 case avg:
 
-                    pooling = mean_c(patches,reduction_dims, post_reduce_dims);
+                    mean_c(pooling.data(),patches.data(),{2,3}, {post_reduce_dims[0], post_reduce_dims[1] , post_reduce_dims[2], post_reduce_dims[3]},{patches.dimension(0),patches.dimension(1),patches.dimension(2),patches.dimension(3),patches.dimension(4)});
               
                     out = pooling.reshape(post_reduce_dims);
                   
                     break;
 
                 case max:
-                    pooling = maximum_c(patches,reduction_dims, post_reduce_dims,mask);
+                    maximum_c(pooling.data(),patches.data(),{2,3}, {post_reduce_dims[0], post_reduce_dims[1] , post_reduce_dims[2], post_reduce_dims[3]},{patches.dimension(0),patches.dimension(1),patches.dimension(2),patches.dimension(3),patches.dimension(4)},mask.data());
                    
                     out = pooling.reshape(post_reduce_dims);
-
+                    
+                    
                     maxmask = mask.reshape(post_reduce_dims);
                     break;
                 default:
@@ -117,7 +120,7 @@ namespace RLDNN
             return out;
 
         }  
-        TensorsWithNames<TensorType> backwardImpl(const Eigen::DSizes<int, 4> &orig_input_shape,Tensor4xf& dout)
+        TensorsWithNames<TensorType> backwardImpl(const Eigen::DSizes<int, 4> &orig_input_shape,Tensor4xf& dout, std::ofstream& outt)
         {
             TensorsWithNames<TensorType> argDX;
 
@@ -154,7 +157,7 @@ namespace RLDNN
             }
             return argDX;
         }
-     
+      
     private:
         Eigen::DSizes<int, 4> get_top_shape(const Tensor4xf& bottom)
         {
@@ -193,18 +196,22 @@ namespace RLDNN
                             }
                         }
                        out(i, k, j) = patches(i, k, p_key, q_key, j);
-                       mask(i, k, j) = Mask(p_key, q_key);
+                       mask(i, k, j).x = p_key;
+                       mask(i, k, j).y = q_key;
                     }  
                 }
             }
 
             return out;
         }
- 
+        
+        
    
-        TensorsWithNames<TensorType> avgpooling_backward(const Eigen::DSizes<int, 4> &orig_input_shape,const Tensor4xf& dout)
+        TensorsWithNames<TensorType> avgpooling_backward(const Eigen::DSizes<int, 4> &orig_input_shape,const Tensor4xf& dout, std::ofstream& outt)
         {
-
+            
+        
+        
             Tensor4xf dX(orig_input_shape[0],orig_input_shape[1],orig_input_shape[2],orig_input_shape[3]);
             dX.setZero();
 
@@ -222,19 +229,20 @@ namespace RLDNN
                             {
                                 for (int g = q*m_hstride; ( g < q * m_hstride + m_hksize)&&(g<dX.dimension(2)); g++)
                                 {
-                                    dX(i, k, g, j) += dout(i, p, q, j);
+                                    dX(i, k, g, j) += dout(i, p, q, j);//??????
                                 }
                             }
                         }
                     }   
                 }
             }
-       
+           
             return TensorsWithNames<TensorType>{ {"dX", dX}};
         }
-        TensorsWithNames<TensorType> maxpooling_backward(const Eigen::DSizes<int, 4> &orig_input_shape,const Tensor4xf& dout)
+        TensorsWithNames<TensorType> maxpooling_backward(const Eigen::DSizes<int, 4> &orig_input_shape,const Tensor4xf& dout, std::ofstream& outt)
         {
-
+            
+            //(,)
             Tensor4xf dX(orig_input_shape[0],orig_input_shape[1],orig_input_shape[2],orig_input_shape[3]);
             dX.setZero();
             for (int i = 0; i < dout.dimension(0); i++)
@@ -252,20 +260,24 @@ namespace RLDNN
                                  {
                                      int a = k - p * m_wstride; int aa = maxmask(i, p, q, j).x;
                                      int b = g - q * m_hstride; int bb = maxmask(i, p, q, j).y;
-
+                                 
                                      if ((k- p * m_wstride )== maxmask(i, p, q, j).x &&(( g- q*m_hstride) == maxmask(i, p, q, j).y))
                                      {
                                          dX(i, k, g, j) = dout(i, p, q, j);
-                                
+                                       
                                      }
                                  }
                              }
+                    
                          }
-                     }       
+                  
+                     }
+                     
                 }
             }
+        
             return TensorsWithNames<TensorType>{ {"dX", dX}};
         }
-       
+
     };
 }
