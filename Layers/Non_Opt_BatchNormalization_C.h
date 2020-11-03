@@ -1,18 +1,22 @@
 #pragma once
-#include "OpInterfaces.hpp"
+#include<math.h>
+typedef struct{
+    int dim0BeforeTrans;
+    int dim1BeforeTrans;
+}TwoDimShape;
+typedef struct{
+    int dim0BeforeTrans;
+}OneDimShape;
 
-#include <math.h>
-using Tensor1xf = Eigen::Tensor<float, 1,Eigen::RowMajor>;
-using Tensor2xf = Eigen::Tensor<float, 2,Eigen::RowMajor>;
-using Tensor4xf = Eigen::Tensor<float, 4,Eigen::RowMajor>;
-Tensor1xf mean(Eigen::array<int, 1> reduction_dims, Tensor2xf post_reduce_dims);
-Tensor2xf sub(Tensor2xf a,Tensor2xf b);
-Tensor1xf add(Tensor1xf a,Tensor1xf b);
-Tensor2xf div(Tensor2xf a,Tensor2xf b);
-Tensor1xf mul(Tensor1xf a,Tensor1xf b);
-Tensor2xf add(Tensor2xf a,Tensor2xf b);
-Tensor2xf mul(Tensor2xf a,Tensor2xf b);
-Tensor2xf sqrt_(Tensor2xf a);
-Tensor1xf sqrt_(Tensor1xf a);
-Tensor1xf sum(Eigen::array<int, 1> add_dims,Tensor2xf post_add_dims);
-Tensor1xf div(Tensor1xf a,Tensor1xf b);
+void mean_(float* out,int  reduction_dims, const float* post_reduce_dims,const TwoDimShape post_reduce_dims_shape);
+void sub_two(float* c,const float* a,const float* b,const TwoDimShape a_Shape);
+void add_one(float* c,const float* a,const float* b,const OneDimShape a_Shape);
+void div_two(float* c,const float* a,const float* b,const TwoDimShape a_Shape);
+void mul_one(float* c,const float* a,const float* b,const OneDimShape a_Shape);
+void add_two(float* c,const float* a,const float* b,const TwoDimShape a_Shape);
+void mul_two(float* c,const float* a,const float* b,const TwoDimShape a_Shape);
+void sqrt_two(float* a,const TwoDimShape a_Shape);
+void sqrt_one(float* a,const OneDimShape a_Shape);
+void sum_( float* out,int add_dims,const float* post_add_dims,const TwoDimShape post_add_dims_shape);
+void sum_de( float* out,int add_dims,const float* post_add_dims,const TwoDimShape post_add_dims_shape);
+void div_one(float* c,const float* a,const float* b,const OneDimShape a_Shape);

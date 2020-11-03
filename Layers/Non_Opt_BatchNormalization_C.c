@@ -1,123 +1,168 @@
+
 #include "Non_Opt_BatchNormalization_C.h"
-Tensor1xf mean(Eigen::array<int, 1>  reduction_dims, Tensor2xf post_reduce_dims){
-    Tensor1xf out(post_reduce_dims.dimension(1-reduction_dims[0]));
-    for (int i = 0; i < post_reduce_dims.dimension(1-reduction_dims[0]); i++)
+void mean_(float* out,int  reduction_dims, const float* post_reduce_dims,const TwoDimShape post_reduce_dims_shape){
+    //Tensor1xf out(post_reduce_dims.dimension(1-reduction_dims[0]));
+    int i_size,j_size;
+    if(reduction_dims==0)
+    {
+        i_size=post_reduce_dims_shape.dim1BeforeTrans;
+        j_size=post_reduce_dims_shape.dim0BeforeTrans;
+    }else if(reduction_dims==1)
+    {
+        i_size=post_reduce_dims_shape.dim0BeforeTrans;
+        j_size=post_reduce_dims_shape.dim1BeforeTrans;
+    }
+    for (int i = 0; i < i_size; i++)
     {
         float sum = 0;
-        for (int j = 0; j < post_reduce_dims.dimension(reduction_dims[0]); j++)
+        for (int j = 0; j < j_size; j++)
         {
-            sum+=post_reduce_dims(i, j);         
+            sum+=post_reduce_dims[i*j_size+j];         
         }
-        out(i)= sum / post_reduce_dims.dimension(reduction_dims[0]);    
+        out[i]= sum / j_size;    
     }
-    return out;
 }
-Tensor2xf sub(Tensor2xf a,Tensor2xf b)
+void sub_two(float* c,const float* a,const float* b,const TwoDimShape a_Shape)
 {
-    Tensor2xf out(a.dimensions());
-    for(int i=0;i<a.dimension(0);i++)
+    //Tensor2xf out(a.dimensions());
+    for(int i=0;i<a_Shape.dim0BeforeTrans;i++)
     {
-        for(int j=0;j<a.dimension(1);j++)
+        for(int j=0;j<a_Shape.dim1BeforeTrans;j++)
         {
-            out(i,j)=a(i,j)-b(i,j);
+            c[i*a_Shape.dim1BeforeTrans+j]=a[i*a_Shape.dim1BeforeTrans+j]-b[i*a_Shape.dim1BeforeTrans+j];
         }
     }
-    return out;
 }
-Tensor1xf add(Tensor1xf a,Tensor1xf b)
+void add_one(float* c,const float* a,const float* b,const OneDimShape a_Shape)
 {
-    Tensor1xf out(a.dimensions());
-    for(int i=0;i<a.dimension(0);i++)
+    //Tensor1xf out(a.dimensions());
+    for(int i=0;i<a_Shape.dim0BeforeTrans;i++)
     { 
-        out(i)=a(i)+b(i);
+        c[i]=a[i]+b[i];
     }
-    return out;
 }
-Tensor2xf div(Tensor2xf a,Tensor2xf b)
+void div_two(float* c,const float* a,const float* b,const TwoDimShape a_Shape)
 {
-    Tensor2xf out(a.dimensions());
-    for(int i=0;i<a.dimension(0);i++)
+    //Tensor2xf out(a.dimensions());
+    for(int i=0;i<a_Shape.dim0BeforeTrans;i++)
     {
-        for(int j=0;j<a.dimension(1);j++)
+        for(int j=0;j<a_Shape.dim1BeforeTrans;j++)
         {
-            out(i,j)=a(i,j)/b(i,j);
+            c[i*a_Shape.dim1BeforeTrans+j]=a[i*a_Shape.dim1BeforeTrans+j]/b[i*a_Shape.dim1BeforeTrans+j];
         }
     }
-    return out;
 }
-Tensor1xf mul(Tensor1xf a,Tensor1xf b)
+void mul_one(float* c,const float* a,const float* b,const OneDimShape a_Shape)
 {
-    Tensor1xf out(a.dimensions());
-    for(int i=0;i<a.dimension(0);i++)
+    //Tensor1xf out(a.dimensions());
+    for(int i=0;i<a_Shape.dim0BeforeTrans;i++)
     { 
-        out(i)=a(i)*b(i);
+        c[i]=a[i]*b[i];
     }
-    return out;
 }
-Tensor2xf add(Tensor2xf a,Tensor2xf b)
+void add_two(float* c,const float* a,const float* b,const TwoDimShape a_Shape)
 {
-    Tensor2xf out(a.dimensions());
-    for(int i=0;i<a.dimension(0);i++)
+    //Tensor2xf out(a.dimensions());
+    for(int i=0;i<a_Shape.dim0BeforeTrans;i++)
     {
-        for(int j=0;j<a.dimension(1);j++)
+        for(int j=0;j<a_Shape.dim1BeforeTrans;j++)
         {
-            out(i,j)=a(i,j)+b(i,j);
+            c[i*a_Shape.dim1BeforeTrans+j]=a[i*a_Shape.dim1BeforeTrans+j]+b[i*a_Shape.dim1BeforeTrans+j];
         }
     }
-    return out;
+
 }
-Tensor2xf mul(Tensor2xf a,Tensor2xf b)
+void mul_two(float* c,const float* a,const float* b,const TwoDimShape a_Shape)
 {
-    Tensor2xf out(a.dimensions());
-    for(int i=0;i<a.dimension(0);i++)
+    //Tensor2xf out(a.dimensions());
+    for(int i=0;i<a_Shape.dim0BeforeTrans;i++)
     {
-        for(int j=0;j<a.dimension(1);j++)
+        for(int j=0;j<a_Shape.dim1BeforeTrans;j++)
         {
-            out(i,j)=a(i,j)*b(i,j);
+            c[i*a_Shape.dim1BeforeTrans+j]=a[i*a_Shape.dim1BeforeTrans+j]*b[i*a_Shape.dim1BeforeTrans+j];
         }
     }
-    return out;
 }
-Tensor2xf sqrt_(Tensor2xf a)
+void sqrt_two(float* a,const TwoDimShape a_Shape)
 {
-    for(int i=0;i<a.dimension(0);i++)
+    
+    for(int i=0;i<a_Shape.dim0BeforeTrans;i++)
     {
-        for(int j=0;j<a.dimension(1);j++)
+        for(int j=0;j<a_Shape.dim1BeforeTrans;j++)
         {
-            a(i,j)=sqrt(a(i,j));
+            a[i*a_Shape.dim1BeforeTrans+j]=sqrt(a[i*a_Shape.dim1BeforeTrans+j]);
         }
     }
-    return a;
 }
 
-Tensor1xf sqrt_(Tensor1xf a)
+void sqrt_one(float* a,const OneDimShape a_Shape)
 {
-    for(int i=0;i<a.dimension(0);i++)
+    
+    for(int i=0;i<a_Shape.dim0BeforeTrans;i++)
     {
-        a(i)=sqrt(a(i));
+        
+        
+        a[i]=sqrt(a[i]);
+        
     }
-    return a;
 }
-Tensor1xf sum(Eigen::array<int, 1> add_dims,Tensor2xf post_add_dims)
+void sum_( float* out,int add_dims,const float* post_add_dims,const TwoDimShape post_add_dims_shape)
 {
-    Tensor1xf out(post_add_dims.dimension(1-add_dims[0]));
-    for (int i = 0; i < post_add_dims.dimension(1-add_dims[0]); i++)
+    //Tensor1xf out(post_add_dims.dimension(1-add_dims[0]));
+    int i_size,j_size;
+    if(add_dims==0)
+    {
+        i_size=post_add_dims_shape.dim1BeforeTrans;
+        j_size=post_add_dims_shape.dim0BeforeTrans;
+    }else if(add_dims==1)
+    {
+        i_size=post_add_dims_shape.dim0BeforeTrans;
+        j_size=post_add_dims_shape.dim1BeforeTrans;
+    }
+    for (int i = 0; i < i_size; i++)
     {
         float sum = 0;
-        for (int j = 0; j < post_add_dims.dimension(add_dims[0]); j++)
+        for (int j = 0; j < j_size; j++)
         {
-            sum+=post_add_dims(i, j);         
+            sum+=post_add_dims[i*j_size+j];         
         }
-        out(i)= sum;    
+        out[i]= sum;    
     }
-    return out;
+
 }
-Tensor1xf div(Tensor1xf a,Tensor1xf b)
+void sum_de( float* out,int add_dims,const float* post_add_dims,const TwoDimShape post_add_dims_shape)
 {
-    Tensor1xf out(a.dimensions());
-    for(int i=0;i<a.dimension(0);i++)
+    //Tensor1xf out(post_add_dims.dimension(1-add_dims[0]));
+    int i_size,j_size;
+    if(add_dims==0)
     {
-        out(i)=a(i)/b(i);
+        i_size=post_add_dims_shape.dim1BeforeTrans;
+        j_size=post_add_dims_shape.dim0BeforeTrans;
+    }else if(add_dims==1)
+    {
+        i_size=post_add_dims_shape.dim0BeforeTrans;
+        j_size=post_add_dims_shape.dim1BeforeTrans;
     }
-    return out;
+    for (int i = 0; i < i_size; i++)
+    {
+        float sum = 0;
+        for (int j = 0; j < j_size; j++)
+        {
+            sum+=post_add_dims[i*j_size+j];         
+        }
+        out[i]= -sum;    
+    }
+
+}
+void div_one(float* c,const float* a,const float* b,const OneDimShape a_Shape)
+{
+    //Tensor1xf out(a.dimensions());
+    for(int i=0;i<a_Shape.dim0BeforeTrans;i++)
+    {
+        
+        
+        c[i]=a[i]/b[i];
+        
+    }
+
 }
