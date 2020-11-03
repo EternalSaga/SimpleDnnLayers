@@ -4,6 +4,7 @@
 #include <mkl.h>
 #else
 #include <cblas.h>
+#define CBLAS_LAYOUT CBLAS_ORDER
 #endif
 
 // A    simlified sgemm used to compute C = A crossProduct B;
