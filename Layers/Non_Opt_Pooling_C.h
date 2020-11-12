@@ -1,22 +1,25 @@
 #pragma once
-#include "OpInterfaces.hpp"
-class Mask
-{
-public:
-    int x, y;
-    Mask(){}
-    Mask(int x, int y)
-    {
-        this->x = x;
-        this->y = y;
-    }
+typedef struct{
+    int dim0BeforeTrans;
+    int dim1BeforeTrans;
+}TwoDimShape;
 
-};
-
-using Tensor3xf = Eigen::Tensor<float, 3,Eigen::RowMajor>;
-using Tensor4xf = Eigen::Tensor<float, 4,Eigen::RowMajor>;
-using Tensor5xf = Eigen::Tensor<float, 5,Eigen::RowMajor>;
-
-            
-Tensor3xf mean_c(Tensor5xf patches, Eigen::array<int, 2> reduction_dims, Eigen::DSizes<int, 4>post_reduce_dims);
-Tensor3xf maximum_c(Tensor5xf patches, Eigen::array<int, 2> reduction_dims, Eigen::DSizes<int, 4>post_reduce_dims, Eigen::Tensor<Mask, 3,Eigen::RowMajor> &mask);
+typedef struct{
+    int dim0BeforeTrans;
+    int dim1BeforeTrans;
+    int dim2BeforeTrans;
+    int dim3BeforeTrans;
+}FourDimShape;
+typedef struct{
+    int dim0BeforeTrans;
+    int dim1BeforeTrans;
+    int dim2BeforeTrans;
+    int dim3BeforeTrans;
+    int dim4BeforeTrans;
+}FiverrDimShape;
+typedef struct{
+    int x;
+    int y;
+}Mask;
+void mean_c(float* out,const float* patches,const TwoDimShape reduction_dims, const FourDimShape post_reduce_dims,const FiverrDimShape patches_Shape);
+void maximum_c(float* out,const float* patches,const TwoDimShape reduction_dims, const FourDimShape post_reduce_dims, const FiverrDimShape patches_Shape, Mask* mask);
