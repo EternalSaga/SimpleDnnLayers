@@ -1,5 +1,5 @@
 enable_testing()
-file(GLOB_RECURSE LayerTestSrc "*.hpp" "BatchNormalizationTest.cpp")
+file(GLOB_RECURSE LayerTestSrc "*.hpp" "affineTest.cpp")
 add_executable(LayerTest ${LayerTestSrc})
 target_include_directories(LayerTest PRIVATE "../thirdparty/eigen" "../Layers")
 find_package(Boost COMPONENTS system filesystem unit_test_framework REQUIRED)

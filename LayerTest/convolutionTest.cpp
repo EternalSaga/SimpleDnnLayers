@@ -33,6 +33,4 @@ BOOST_AUTO_TEST_CASE(ConvolutionEigenTest)
     TensorsWithNames<Tensor4xf> out2=p1.backwardImpl(out1,out);
     Tensor4xf dout=out2.at("dX");
  
-
-  
 }
