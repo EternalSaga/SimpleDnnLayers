@@ -24,8 +24,8 @@ BOOST_AUTO_TEST_CASE(BatchNormalizationEigenTest)
     
     BatchNormalizationLayer<Tensor4xf, Device::CPU> p1{gamma,beta, batch_Mean, batch_Var,0.0001,1};
   
-    Tensor4xf out1 = p1.forwardImpl(TensorsWithNames<Tensor4xf> { {"x", input}},out);
+    Tensor4xf out1 = p1.forwardImpl(TensorsWithNames<Tensor4xf> { {"x", input}});
   
-    TensorsWithNames<Tensor4xf> out2=p1.backwardImpl(out1,out);
+    TensorsWithNames<Tensor4xf> out2=p1.backwardImpl(out1);
     Tensor4xf dout=out2.at("dX");
 }

@@ -26,11 +26,11 @@ BOOST_AUTO_TEST_CASE(ConvolutionEigenTest)
    { 1.0 ,1.0}}}});
  
     
-    ConvolutionLayer<Tensor4xf, Device::CPU> p1{ TensorsWithNames<Tensor4xf> { {"x", inputX}}, filter,std::vector<int> {1,1} };
+    ConvolutionLayer<Tensor4xf, Device::CPU> p1{ filter,std::vector<int> {1,1} };
   
-    Tensor4xf out1 = p1.forwardImpl(out);
+    Tensor4xf out1 = p1.forwardImpl(TensorsWithNames<Tensor4xf> { {"x", inputX}});
     
-    TensorsWithNames<Tensor4xf> out2=p1.backwardImpl(out1,out);
+    TensorsWithNames<Tensor4xf> out2=p1.backwardImpl(out1);
     Tensor4xf dout=out2.at("dX");
  
 }

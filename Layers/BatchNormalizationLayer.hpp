@@ -219,6 +219,7 @@ namespace RLDNN
             x_1.setConstant(x_0);
             return x_1;  
         }
+
     };
 }
         
